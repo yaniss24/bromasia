@@ -392,8 +392,8 @@ async function generarBroma(){
     const res = await fetch('/api/generar', {method:'POST', body:formData});
     const data = await res.json();
     if(data.error) throw new Error(data.error);
-    document.getElementById('resultImg').src = data.url;
-    document.getElementById('downloadBtn').href = data.url;
+    document.getElementById('resultImg').src = data.imagen;
+    document.getElementById('downloadBtn').href = data.imagen;
     resultBox.style.display = 'block';
     resultBox.scrollIntoView({behavior:'smooth'});
   } catch(err){
