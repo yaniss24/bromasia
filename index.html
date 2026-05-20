@@ -393,8 +393,11 @@ async function generarBroma(){
     const data = await res.json();
     if(data.error) throw new Error(data.error);
     document.getElementById('resultImg').src = data.imagen;
+    document.getElementById('resultImg').style.filter = 'blur(12px)';
+    document.getElementById('resultImg').style.userSelect = 'none';
     document.getElementById('downloadBtn').href = data.imagen;
     resultBox.style.display = 'block';
+    mostrarPopupPago();
     resultBox.scrollIntoView({behavior:'smooth'});
   } catch(err){
     errorDiv.textContent = 'Error generando la broma. Inténtalo de nuevo.';
@@ -408,3 +411,29 @@ async function generarBroma(){
 </script>
 </body>
 </html>
+
+<script>
+function mostrarPopupPago() {
+  const popup = document.createElement('div');
+  popup.id = 'popupPago';
+  popup.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;';
+  popup.innerHTML = `
+    <div style="background:#1a1a2e;border-radius:20px;padding:40px;max-width:480px;width:90%;text-align:center;color:white;font-family:sans-serif;">
+      <div style="font-size:48px;margin-bottom:10px;">🔒</div>
+      <h2 style="font-size:24px;margin-bottom:8px;">Tu broma está lista</h2>
+      <p style="color:#aaa;margin-bottom:30px;">Desbloquéala ahora para verla sin blur</p>
+      <div style="display:flex;gap:15px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;">
+        <a href="https://bromasia.lemonsqueezy.com/checkout/buy/e22eb3ea-df7b-4fe0-b1c2-56149c66b100" target="_blank" style="background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;padding:18px 28px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;flex:1;min-width:180px;">
+          🔥 3.99€ / 2 semanas<br><span style="font-size:12px;opacity:0.8;">Ilimitadas</span>
+        </a>
+        <a href="https://bromasia.lemonsqueezy.com/checkout/buy/e22eb3ea-df7b-4fe0-b1c2-56149c66b100" target="_blank" style="background:#2d2d4e;color:white;padding:18px 28px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;flex:1;min-width:180px;border:2px solid #7c3aed;">
+          ⭐ 6.99€ / mes<br><span style="font-size:12px;opacity:0.8;">Ilimitadas</span>
+        </a>
+      </div>
+      <p style="color:#666;font-size:12px;">Pago 100% seguro · Cancela cuando quieras</p>
+      <button onclick="document.getElementById('popupPago').remove()" style="margin-top:15px;background:none;border:none;color:#666;cursor:pointer;font-size:13px;">Cerrar</button>
+    </div>
+  `;
+  document.body.appendChild(popup);
+}
+</script>
