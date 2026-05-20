@@ -422,7 +422,7 @@ function mostrarPopupPago() {
       <div style="font-size:48px;margin-bottom:10px;">🔒</div>
       <h2 style="font-size:24px;margin-bottom:8px;">Tu broma está lista</h2>
       <p style="color:#aaa;margin-bottom:15px;">Desbloquéala ahora para verla sin blur</p>
-      <div style="background:#0d0d1a;border-radius:10px;padding:15px;margin-bottom:20px;text-align:left;font-size:13px;">
+      <div id="checklist" style="background:#0d0d1a;border-radius:10px;padding:15px;margin-bottom:20px;text-align:left;font-size:13px;">
         <div style="color:#22c55e;margin-bottom:6px;">✅ Escena detectada</div>
         <div style="color:#22c55e;margin-bottom:6px;">✅ Broma comprendida</div>
         <div style="color:#22c55e;margin-bottom:6px;">✅ Imagen generada con IA</div>
@@ -441,6 +441,6 @@ function mostrarPopupPago() {
       <button onclick="document.getElementById('popupPago').remove()" style="margin-top:15px;background:none;border:none;color:#666;cursor:pointer;font-size:13px;">Cerrar</button>
     </div>
   `;
-  document.body.appendChild(popup);
+  document.body.appendChild(popup); animarChecklist();
 }
 </script>
