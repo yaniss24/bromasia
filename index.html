@@ -324,6 +324,51 @@ footer a:hover{color:var(--text)}
 </div>
 </div>
 
+<!-- FAQ -->
+<div style="padding:60px 20px;background:#0a0a0f;max-width:800px;margin:0 auto;">
+  <div style="text-align:center;margin-bottom:40px;">
+    <div style="color:#8A5CFF;font-size:13px;font-weight:600;letter-spacing:2px;margin-bottom:10px;">FAQ</div>
+    <h2 style="font-size:2rem;font-weight:800;color:white;margin:0;">Preguntas frecuentes</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">¿Cómo de realista queda la broma? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Muy realista. Nuestra IA genera imágenes fotorrealistas que incluyen detalles como matrículas españolas, texturas reales y luz natural. La mayoría de las personas no distinguen la imagen modificada de una foto real.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">¿Funciona con cualquier foto? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Funciona con la mayoría de fotos en JPG o PNG hasta 10MB. Cuanto más nítida y bien iluminada sea la foto, mejor será el resultado. Evita fotos muy oscuras o borrosas.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">¿Cuánto tarda en generarse? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Entre 15 y 60 segundos dependiendo de la complejidad de la broma. Mientras esperas puedes ir preparando la reacción de tu víctima 😈</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">¿Puedo cancelar mi suscripción cuando quiera? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Sí, puedes cancelar en cualquier momento desde tu cuenta en Lemon Squeezy. No hay permanencia ni penalizaciones. La suscripción sigue activa hasta el fin del período pagado.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">¿Es legal usar BromasIA? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">BromasIA está diseñado para uso personal y entretenimiento entre amigos y familiares. El usuario es responsable del uso que haga de las imágenes generadas. Está prohibido usar las imágenes para difamar, acosar o engañar con fines maliciosos.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">¿Es seguro pagar? <span class="faq-arrow">▼</span></div>
+      <div class="faq-a">Sí. Los pagos se procesan a través de Lemon Squeezy, una plataforma de pagos segura y certificada. Nunca almacenamos datos de tu tarjeta.</div>
+    </div>
+  </div>
+</div>
+
+<style>
+.faq-list { display:flex; flex-direction:column; gap:12px; }
+.faq-item { background:#13131a; border:1px solid #2a2a3a; border-radius:12px; overflow:hidden; }
+.faq-q { padding:18px 20px; color:white; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-size:15px; }
+.faq-arrow { color:#8A5CFF; transition:transform .3s; }
+.faq-item.open .faq-arrow { transform:rotate(180deg); }
+.faq-a { display:none; padding:0 20px 18px; color:#aaa; line-height:1.6; font-size:14px; }
+.faq-item.open .faq-a { display:block; }
+</style>
+
+
 <!-- CTA -->
 <div class="cta">
   <h2>¿A quién le vas a gastar la primera?</h2>
@@ -331,9 +376,9 @@ footer a:hover{color:var(--text)}
   <a href="#generar" class="btn-primary" style="font-size:1.05rem;padding:1rem 2.5rem">🎭 Lanzar mi broma</a>
 </div>
 
-<footer>
-  <p style="margin-bottom:.5rem"><a href="#">Privacidad</a><a href="#">Términos</a><a href="#">Contacto</a></p>
-  <p>© 2026 BromasIA · Hecho con ❤️ en España 🇪🇸</p>
+<footer style="text-align:center;padding:2rem 1.5rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border);">
+  <p style="margin-bottom:.5rem;">© 2026 BromasIA · Todos los derechos reservados</p>
+  <p><a href="/privacidad" style="color:var(--muted);text-decoration:none;margin:0 .5rem;">Privacidad</a><a href="/terminos" style="color:var(--muted);text-decoration:none;margin:0 .5rem;">Términos de uso</a><a href="/aviso-legal" style="color:var(--muted);text-decoration:none;margin:0 .5rem;">Aviso legal</a><a href="mailto:contacto@bromasia.com" style="color:var(--muted);text-decoration:none;margin:0 .5rem;">Contacto</a></p>
 </footer>
 
 <script>
