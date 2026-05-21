@@ -409,6 +409,47 @@ async function generarBroma(){
   }
 }
 </script>
+
+<div id="popupVerificar" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#1a1a2e;border-radius:20px;padding:40px;max-width:420px;width:90%;text-align:center;color:white;font-family:sans-serif;">
+    <div style="font-size:48px;margin-bottom:10px;">🎉</div>
+    <h2 style="font-size:22px;margin-bottom:8px;">¡Pago completado!</h2>
+    <p style="color:#aaa;margin-bottom:20px;font-size:14px;">Introduce el email con el que pagaste para activar tu acceso</p>
+    <input id="emailVerificar" type="email" placeholder="tu@email.com" style="width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#0d0d1a;color:white;font-size:15px;margin-bottom:12px;box-sizing:border-box;">
+    <button onclick="verificarPago()" style="width:100%;padding:13px;background:linear-gradient(135deg,#8A5CFF,#6B3FEB);color:white;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;">✅ Activar acceso</button>
+    <p id="msgVerificar" style="margin-top:12px;font-size:13px;color:#aaa;"></p>
+  </div>
+</div>
+<script>
+async function verificarPago() {
+  const email = document.getElementById('emailVerificar').value.trim();
+  const msg = document.getElementById('msgVerificar');
+  if (!email) { msg.textContent = 'Introduce tu email'; return; }
+  msg.textContent = 'Verificando...';
+  try {
+    const res = await fetch('/api/verificar-pago', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email})
+    });
+    const data = await res.json();
+    if (data.ok) {
+      msg.style.color = '#22c55e';
+      msg.textContent = '¡Acceso activado! Ya puedes generar bromas ilimitadas.';
+      setTimeout(() => { document.getElementById('popupVerificar').style.display = 'none'; }, 2000);
+    } else {
+      msg.style.color = '#ef4444';
+      msg.textContent = 'No encontramos tu pago. Usa el email con el que pagaste.';
+    }
+  } catch(e) {
+    msg.style.color = '#ef4444';
+    msg.textContent = 'Error de conexion. Intentalo de nuevo.';
+  }
+}
+if (window.location.search.includes('pago=ok')) {
+  document.getElementById('popupVerificar').style.display = 'flex';
+}
+</script>
 </body>
 </html>
 
@@ -433,7 +474,7 @@ function mostrarPopupPago() {
         <a href="https://bromasia.lemonsqueezy.com/checkout/buy/a71d75cb-1616-4088-9e73-fa799c95b6fe" target="_blank" style="background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;padding:18px 28px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;flex:1;min-width:180px;">
           🔥 3.99€ / 2 semanas<br><span style="font-size:12px;opacity:0.8;">Ilimitadas</span>
         </a>
-        <a href="https://bromasia.lemonsqueezy.com/checkout/buy/e22eb3ea-df7b-4fe0-b1c2-56149c66b100" target="_blank" style="background:#2d2d4e;color:white;padding:18px 28px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;flex:1;min-width:180px;border:2px solid #7c3aed;">
+        <a href="https://bromasia.lemonsqueezy.com/checkout/buy/a71d75cb-1616-4088-9e73-fa799c95b6fe" target="_blank" style="background:#2d2d4e;color:white;padding:18px 28px;border-radius:12px;text-decoration:none;font-weight:bold;font-size:16px;flex:1;min-width:180px;border:2px solid #7c3aed;">
           ⭐ 6.99€ / mes<br><span style="font-size:12px;opacity:0.8;">Ilimitadas</span>
         </a>
       </div>
