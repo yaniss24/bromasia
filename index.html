@@ -538,23 +538,31 @@ async function generarBroma(){
   const SKEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY";
   const sb = supabase.createClient(SURL, SKEY);
   const { data: { session } } = await sb.auth.getSession();
-  if (!session) return;
 
-  // Mostrar hamburger
+  // Hamburger siempre funciona
   const btn = document.getElementById('hamburger-btn');
+  const menu = document.getElementById('side-menu');
+  const overlay = document.getElementById('side-overlay');
+  btn.addEventListener('click', () => { menu.classList.add('open'); overlay.classList.add('open'); });
+  document.getElementById('side-close').addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
+  overlay.addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
+
   if (!session) {
-    // No logueado - mostrar login/registro en menu lateral
+    // No logueado: mostrar login/registro en menu lateral, ocultar nav-right
     const sideUser = document.querySelector('.side-user');
     if (sideUser) sideUser.innerHTML = '<a href="/login" style="display:block;background:#1a1a2e;color:white;padding:12px;border-radius:8px;text-decoration:none;font-weight:600;text-align:center;margin-bottom:8px">Iniciar sesión</a><a href="/registro" style="display:block;background:#8A5CFF;color:white;padding:12px;border-radius:8px;text-decoration:none;font-weight:600;text-align:center">Registrarse</a>';
     const sideItems = document.querySelectorAll('.side-item');
     sideItems.forEach(i => i.style.display = 'none');
     const sideDivider = document.querySelector('.side-divider');
     if (sideDivider) sideDivider.style.display = 'none';
+    return;
   }
 
-  // Ocultar nav-right completamente
+  // Logueado: ocultar botones nav
   const navBtns = document.querySelector('.nav-right');
   if (navBtns) navBtns.style.display = 'none';
+  // Ocultar también los links de iniciar sesión y registrarse de la nav
+  document.querySelectorAll('nav a[href="/login"], nav a[href="/registro"]').forEach(el => el.style.display = 'none');
 
   // Cargar datos
   document.getElementById('side-email').textContent = session.user.email;
