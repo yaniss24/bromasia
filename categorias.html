@@ -54,6 +54,25 @@ section{padding:20px 40px}
 .modal-btn-primary{display:block;background:#8A5CFF;color:white;padding:14px;border-radius:10px;text-decoration:none;font-weight:700;margin-bottom:10px}
 .modal-btn-secondary{display:block;background:transparent;border:1px solid #2a2a3a;color:white;padding:14px;border-radius:10px;text-decoration:none}
 </style>
+
+<style>
+.hamburger-btn{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px}
+.hamburger-btn span{display:block;width:22px;height:2px;background:white;border-radius:2px}
+.side-menu{position:fixed;top:0;left:-100%;width:280px;height:100vh;background:#0d0d1a;border-right:1px solid #2a2a3a;z-index:2000;transition:left 0.3s;padding:24px;display:flex;flex-direction:column}
+.side-menu.open{left:0}
+.side-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1999}
+.side-overlay.open{display:block}
+.side-close{background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;align-self:flex-end;margin-bottom:16px}
+.side-user{background:#1a1a2e;border-radius:12px;padding:12px 16px;margin-bottom:24px}
+.side-user-label{font-size:11px;color:#8A5CFF;font-weight:700;text-transform:uppercase;margin-bottom:4px}
+.side-user-email{font-size:13px;color:white;word-break:break-all}
+.side-item{display:flex;align-items:center;gap:12px;padding:14px 12px;border-radius:10px;color:white;text-decoration:none;font-size:15px;font-weight:500;margin-bottom:4px;cursor:pointer;background:none;border:none;width:100%;text-align:left}
+.side-item:hover{background:#1a1a2e}
+.side-item-icon{font-size:1.2rem;width:24px;text-align:center}
+.side-divider{height:1px;background:#1a1a2e;margin:12px 0}
+.side-item-danger{color:#ff4444}
+.side-creditos{font-size:12px;color:#8A5CFF;font-weight:700;margin-left:auto}
+</style>
 </head>
 <body>
 <nav>
@@ -237,5 +256,49 @@ document.getElementById('modal').addEventListener('click', function(e) {
   if (e.target === this) this.classList.remove('open');
 });
 </script>
+
+<script>
+(async function() {
+  const SURL = "https://xnrhnmrghxtrrylnlnuv.supabase.co";
+  const SKEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY";
+  const sb = supabase.createClient(SURL, SKEY);
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) return;
+
+  // Mostrar hamburger
+  const btn = document.getElementById('hamburger-btn');
+  if (btn) btn.style.display = 'flex';
+
+  // Ocultar nav-btns normales si existen
+  const navBtns = document.querySelector('.nav-btns') || document.querySelector('.nav-right');
+  if (navBtns) {
+    // Mantener solo el hamburger
+    const links = navBtns.querySelectorAll('a:not(.logo)');
+    links.forEach(l => l.style.display = 'none');
+  }
+
+  // Cargar datos
+  document.getElementById('side-email').textContent = session.user.email;
+  try {
+    const res = await fetch('/api/creditos', { headers: { 'Authorization': 'Bearer ' + session.access_token } });
+    const data = await res.json();
+    document.getElementById('side-creditos').textContent = (data.creditos ?? 0) + ' créditos';
+  } catch(e) {}
+
+  // Abrir/cerrar menú
+  const menu = document.getElementById('side-menu');
+  const overlay = document.getElementById('side-overlay');
+  btn.addEventListener('click', () => { menu.classList.add('open'); overlay.classList.add('open'); });
+  document.getElementById('side-close').addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
+  overlay.addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
+
+  // Logout
+  document.getElementById('side-logout').addEventListener('click', async () => {
+    await sb.auth.signOut();
+    window.location.href = '/';
+  });
+})();
+</script>
+
 </body>
 </html>
