@@ -166,13 +166,13 @@ footer a:hover{color:var(--text)}
 
 <nav style="display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #1a1a2e">
   <div style="display:flex;align-items:center;gap:16px">
-    <button class="hamburger-btn" id="hamburger-btn" style="display:flex;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px">
+    <button class="hamburger-btn" id="hamburger-btn" style="display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px">
       <span style="display:block;width:22px;height:2px;background:white;border-radius:2px"></span>
       <span style="display:block;width:22px;height:2px;background:white;border-radius:2px"></span>
       <span style="display:block;width:22px;height:2px;background:white;border-radius:2px"></span>
     </button>
-    <a href="/login" style="color:#ccc;text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;">Iniciar sesión</a>
-    <a href="/registro" style="background:#8A5CFF;color:white;text-decoration:none;font-size:14px;font-weight:600;padding:8px 18px;border-radius:8px;">Registrarse</a>
+    <a id="nav-login" href="/login" style="color:#ccc;text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;">Iniciar sesión</a>
+    <a id="nav-registro" href="/registro" style="background:#8A5CFF;color:white;text-decoration:none;font-size:14px;font-weight:600;padding:8px 18px;border-radius:8px;">Registrarse</a>
   </div>
   <a href="/" style="font-size:2rem;font-weight:800;text-decoration:none;color:white;position:absolute;left:50%;transform:translateX(-50%)">Bromas<span style="color:#8A5CFF">IA</span></a>
   <div class="nav-right"></div>
@@ -539,7 +539,6 @@ async function generarBroma(){
   const sb = supabase.createClient(SURL, SKEY);
   const { data: { session } } = await sb.auth.getSession();
 
-  // Hamburger siempre funciona
   const btn = document.getElementById('hamburger-btn');
   const menu = document.getElementById('side-menu');
   const overlay = document.getElementById('side-overlay');
@@ -548,21 +547,17 @@ async function generarBroma(){
   overlay.addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
 
   if (!session) {
-    // No logueado: mostrar login/registro en menu lateral, ocultar nav-right
-    const sideUser = document.querySelector('.side-user');
-    if (sideUser) sideUser.innerHTML = '<a href="/login" style="display:block;background:#1a1a2e;color:white;padding:12px;border-radius:8px;text-decoration:none;font-weight:600;text-align:center;margin-bottom:8px">Iniciar sesión</a><a href="/registro" style="display:block;background:#8A5CFF;color:white;padding:12px;border-radius:8px;text-decoration:none;font-weight:600;text-align:center">Registrarse</a>';
-    const sideItems = document.querySelectorAll('.side-item');
-    sideItems.forEach(i => i.style.display = 'none');
-    const sideDivider = document.querySelector('.side-divider');
-    if (sideDivider) sideDivider.style.display = 'none';
+    // Sin login: mostrar iniciar/registrarse, ocultar hamburger
+    document.getElementById('nav-login').style.display = 'inline';
+    document.getElementById('nav-registro').style.display = 'inline-block';
+    btn.style.display = 'none';
     return;
   }
 
-  // Logueado: ocultar botones nav
-  const navBtns = document.querySelector('.nav-right');
-  if (navBtns) navBtns.style.display = 'none';
-  // Ocultar también los links de iniciar sesión y registrarse de la nav
-  document.querySelectorAll('nav a[href="/login"], nav a[href="/registro"]').forEach(el => el.style.display = 'none');
+  // Con login: ocultar iniciar/registrarse, mostrar hamburger
+  document.getElementById('nav-login').style.display = 'none';
+  document.getElementById('nav-registro').style.display = 'none';
+  btn.style.display = 'flex';
 
   // Cargar datos
   document.getElementById('side-email').textContent = session.user.email;
