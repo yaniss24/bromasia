@@ -545,7 +545,15 @@ async function generarBroma(){
 
   // Mostrar hamburger
   const btn = document.getElementById('hamburger-btn');
-  if (btn) btn.style.display = 'flex';
+  if (!session) {
+    // No logueado - mostrar login/registro en menu lateral
+    const sideUser = document.querySelector('.side-user');
+    if (sideUser) sideUser.innerHTML = '<a href="/login" style="display:block;background:#1a1a2e;color:white;padding:12px;border-radius:8px;text-decoration:none;font-weight:600;text-align:center;margin-bottom:8px">Iniciar sesión</a><a href="/registro" style="display:block;background:#8A5CFF;color:white;padding:12px;border-radius:8px;text-decoration:none;font-weight:600;text-align:center">Registrarse</a>';
+    const sideItems = document.querySelectorAll('.side-item');
+    sideItems.forEach(i => i.style.display = 'none');
+    const sideDivider = document.querySelector('.side-divider');
+    if (sideDivider) sideDivider.style.display = 'none';
+  }
 
   // Ocultar nav-right completamente
   const navBtns = document.querySelector('.nav-right');
