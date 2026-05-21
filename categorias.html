@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elige tu broma · BromasIA</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:white;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid #2a2a3a;position:sticky;top:0;background:#0a0a0f;z-index:50}
+.logo{font-size:20px;font-weight:800;text-decoration:none;color:white}
+.logo span{color:#8A5CFF}
+.nav-btns{display:flex;gap:12px;align-items:center}
+.btn-outline{color:#ccc;text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px}
+.btn-purple{background:#8A5CFF;color:white;text-decoration:none;font-size:14px;font-weight:600;padding:8px 18px;border-radius:8px}
+.hero{text-align:center;padding:40px 20px 24px}
+.tag{display:inline-block;background:#8A5CFF20;color:#8A5CFF;border:1px solid #8A5CFF40;border-radius:20px;padding:6px 16px;font-size:13px;font-weight:600;margin-bottom:16px}
+h1{font-size:2rem;font-weight:800;margin-bottom:8px}
+h1 span{color:#8A5CFF}
+.subtitle{color:#888;font-size:15px}
+.section{padding:24px 16px;max-width:1100px;margin:0 auto}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.section-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.top-badge{background:#8A5CFF20;color:#8A5CFF;font-size:12px;padding:3px 10px;border-radius:10px}
+.carousel{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;cursor:grab}
+.carousel::-webkit-scrollbar{display:none}
+.cat-card{flex-shrink:0;width:260px;border-radius:16px;overflow:hidden;cursor:pointer;position:relative;transition:transform .2s;border:1px solid #2a2a3a}
+.cat-card:hover{transform:scale(1.02)}
+.cat-card img{width:100%;height:180px;object-fit:cover;display:block}
+.cat-info{position:absolute;bottom:0;left:0;right:0;padding:12px;background:linear-gradient(transparent,rgba(0,0,0,0.85))}
+.cat-title{font-size:14px;font-weight:700}
+.cat-desc{font-size:12px;color:#ccc}
+.cat-badge{position:absolute;top:10px;left:10px;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.badge-viral{background:#ff4757}
+.badge-hot{background:#ff6b35}
+.badge-new{background:#2ed573;color:#000}
+.badge-shock{background:#8A5CFF}
+.badge-wtf{background:#ffa502}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
+.grid-card{border-radius:16px;overflow:hidden;cursor:pointer;position:relative;transition:transform .2s;border:1px solid #2a2a3a}
+.grid-card:hover{transform:scale(1.02)}
+.grid-card img{width:100%;height:150px;object-fit:cover;display:block}
+.grid-info{padding:10px 12px;background:#13131a}
+.grid-title{font-size:13px;font-weight:700}
+.grid-desc{font-size:12px;color:#888;margin-top:2px}
+.cta-bar{position:fixed;bottom:0;left:0;right:0;background:#13131a;border-top:1px solid #2a2a3a;padding:12px 20px;text-align:center;z-index:50}
+.cta-btn{background:linear-gradient(135deg,#8A5CFF,#6d28d9);color:white;border:none;border-radius:12px;padding:14px 40px;font-size:16px;font-weight:700;cursor:pointer;width:100%;max-width:400px}
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#13131a;border:1px solid #2a2a3a;border-radius:20px;padding:36px;width:100%;max-width:400px;margin:20px}
+.modal-close{float:right;background:none;border:none;color:#888;font-size:20px;cursor:pointer;margin-top:-8px}
+.modal h2{font-size:1.4rem;margin-bottom:6px}
+.modal p{color:#888;font-size:14px;margin-bottom:24px}
+.modal-btns{display:flex;flex-direction:column;gap:10px}
+.modal-btn{padding:13px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;border:none}
+.modal-btn-primary{background:#8A5CFF;color:white;display:block}
+.modal-btn-secondary{background:transparent;border:1px solid #2a2a3a;color:white;display:block}
+.spacer{height:80px}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">Bromas<span>IA</span></a>
+  <div class="nav-btns">
+    <a href="/login" class="btn-outline">Iniciar sesión</a>
+    <a href="/registro" class="btn-purple">Registrarse</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="tag">✨ IA Ultra-Realista</div>
+  <h1>¿Qué broma quieres<br><span>lanzar hoy?</span></h1>
+  <p class="subtitle">Elige un escenario — la IA hace el resto en segundos.</p>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">🔥 Las más virales <span class="top-badge">TOP 5</span></div>
+  </div>
+  <div class="carousel" id="carousel">
+    <div class="cat-card" onclick="abrirModal()"><img src="img/casa-llamas.png" alt=""><div class="cat-badge badge-viral">🔥 Viral</div><div class="cat-info"><div class="cat-title">Casa en llamas</div><div class="cat-desc">Tu casa ardiendo</div></div></div>
+    <div class="cat-card" onclick="abrirModal()"><img src="img/escapando-policia.png" alt=""><div class="cat-badge badge-hot">🚔 Hot</div><div class="cat-info"><div class="cat-title">Escapando de la policía</div><div class="cat-desc">Luces azules detrás</div></div></div>
+    <div class="cat-card" onclick="abrirModal()"><img src="img/policia-casa.png" alt=""><div class="cat-badge badge-shock">😱 Shock</div><div class="cat-info"><div class="cat-title">Policía en mi casa</div><div class="cat-desc">Coche patrulla en el garaje</div></div></div>
+    <div class="cat-card" onclick="abrirModal()"><img src="img/ladrones-jardin.png" alt=""><div class="cat-badge badge-viral">🌙 Viral</div><div class="cat-info"><div class="cat-title">Ladrones en el jardín</div><div class="cat-desc">Dos intrusos de noche</div></div></div>
+    <div class="cat-card" onclick="abrirModal()"><img src="img/tv-reventada.png" alt=""><div class="cat-badge badge-hot">💥 Hot</div><div class="cat-info"><div class="cat-title">TV reventada</div><div class="cat-desc">Pantalla destrozada</div></div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">Todas las categorías</div>
+  </div>
+  <div class="grid">
+    <div class="grid-card" onclick="abrirModal()"><img src="img/casa-llamas.png" alt=""><div class="cat-badge badge-viral">🔥 Viral</div><div class="grid-info"><div class="grid-title">Casa en llamas</div><div class="grid-desc">Tu casa ardiendo</div></div></div>
+    <div class="grid-card" onclick="abrirModal()"><img src="img/escapando-policia.png" alt=""><div class="cat-badge badge-hot">🚔 Hot</div><div class="grid-info"><div class="grid-title">Escapando de la policía</div><div class="grid-desc">Luces azules detrás</div></div></div>
+    <div class="grid-card" onclick="abrirModal()"><img src="img/policia-casa.png" alt=""><div class="cat-badge badge-shock">😱 Shock</div><div class="grid-info"><div class="grid-title">Policía en mi casa</div><div class="grid-desc">Coche patrulla en el garaje</div></div></div>
+    <div class="grid-card" onclick="abrirModal()"><img src="img/ladrones-jardin.png" alt=""><div class="cat-badge badge-viral">🌙 Viral</div><div class="grid-info"><div class="grid-title">Ladrones en el jardín</div><div class="grid-desc">Dos intrusos de noche</div></div></div>
+    <div class="grid-card" onclick="abrirModal()"><img src="img/tv-reventada.png" alt=""><div class="cat-badge badge-hot">💥 Hot</div><div class="grid-info"><div class="grid-title">TV reventada</div><div class="grid-desc">Pantalla destrozada</div></div></div>
+    <div class="grid-card" onclick="abrirModal()"><img src="img/puerta-fracturada.png" alt=""><div class="cat-badge badge-shock">🚪 Shock</div><div class="grid-info"><div class="grid-title">Puerta fracturada</div><div class="grid-desc">Entrada forzada</div></div></div>
+    <div class="grid-card" onclick="abrirModal()"><img src="img/ferrari.png" alt=""><div class="cat-badge badge-new">💎 Flex</div><div class="grid-info"><div class="grid-title">Me compré un Ferrari</div><div class="grid-desc">Flexeando al máximo</div></div></div>
+    <div class="grid-card" onclick="abrirModal()"><img src="img/coche-cuneta.png" alt=""><div class="cat-badge badge-hot">😬 Drama</div><div class="grid-info"><div class="grid-title">Coche en la cuneta</div><div class="grid-desc">Salida de carretera</div></div></div>
+    <div class="grid-card" onclick="abrirModal()"><img src="img/tesla-fuego.png" alt=""><div class="cat-badge badge-viral">🔥 Viral</div><div class="grid-info"><div class="grid-title">Tesla en fuego</div><div class="grid-desc">Ardiendo en el cargador</div></div></div>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
+<div class="cta-bar">
+  <button class="cta-btn" onclick="abrirModal()">🎯 Personalizar mi broma →</button>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <h2>Tu broma está lista 🎯</h2>
+    <p>Crea tu cuenta gratis para generar esta broma en segundos. Sin tarjeta.</p>
+    <div class="modal-btns">
+      <a href="/registro" class="modal-btn modal-btn-primary">Crear cuenta gratis →</a>
+      <a href="/login" class="modal-btn modal-btn-secondary">Ya tengo cuenta</a>
+    </div>
+  </div>
+</div>
+
+<script>
+var el = document.getElementById('carousel');
+var isDown = false, startX, scrollLeft;
+el.addEventListener('mousedown',function(e){isDown=true;el.style.cursor='grabbing';startX=e.pageX-el.offsetLeft;scrollLeft=el.scrollLeft});
+el.addEventListener('mouseleave',function(){isDown=false;el.style.cursor='grab'});
+el.addEventListener('mouseup',function(){isDown=false;el.style.cursor='grab'});
+el.addEventListener('mousemove',function(e){if(!isDown)return;e.preventDefault();var x=e.pageX-el.offsetLeft;el.scrollLeft=scrollLeft-(x-startX)*1.5});
+
+function abrirModal(){document.getElementById('modal').classList.add('open')}
+function cerrarModal(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)cerrarModal()});
+</script>
+</body>
+</html>
