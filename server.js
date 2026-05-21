@@ -27,6 +27,7 @@ app.get('/aviso-legal', (req, res) => res.sendFile(__dirname + '/aviso-legal.htm
 app.get('/login', (req, res) => res.sendFile(__dirname + '/login.html'));
 app.get('/registro', (req, res) => res.sendFile(__dirname + '/registro.html'));
 app.get('/categorias', (req, res) => res.sendFile(__dirname + '/categorias.html'));
+app.get('/perfil', (req, res) => res.sendFile(__dirname + '/perfil.html'));
 app.get('/generador', (req, res) => res.sendFile(__dirname + '/generador.html'));
 
 // API créditos

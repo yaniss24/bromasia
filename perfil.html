@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi perfil · BromasIA</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:white;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:1px solid #1a1a2e}
+.logo{font-size:1.4rem;font-weight:800;text-decoration:none;color:white}
+.logo span{color:#8A5CFF}
+.container{max-width:500px;margin:0 auto;padding:40px 20px}
+h1{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+.subtitle{color:#888;margin-bottom:32px}
+.card{background:#12121f;border:1px solid #2a2a3a;border-radius:16px;padding:24px;margin-bottom:16px}
+.card-label{font-size:12px;color:#8A5CFF;font-weight:600;text-transform:uppercase;margin-bottom:8px}
+.card-value{font-size:1.1rem;font-weight:600}
+.creditos-big{font-size:3rem;font-weight:800;color:#8A5CFF;margin:8px 0}
+.creditos-sub{color:#888;font-size:14px}
+.btn{display:block;width:100%;padding:16px;border-radius:12px;font-size:1rem;font-weight:700;text-align:center;cursor:pointer;border:none;margin-bottom:12px;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,#8A5CFF,#b44fff);color:white}
+.btn-secondary{background:#1a1a2e;border:1px solid #2a2a3a;color:white}
+.btn-danger{background:transparent;border:1px solid #ff4444;color:#ff4444}
+.divider{height:1px;background:#1a1a2e;margin:24px 0}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">Bromas<span>IA</span></a>
+</nav>
+
+<div class="container">
+  <h1>Mi perfil</h1>
+  <p class="subtitle">Gestiona tu cuenta y créditos</p>
+
+  <div class="card">
+    <div class="card-label">Email</div>
+    <div class="card-value" id="email">Cargando...</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Créditos disponibles</div>
+    <div class="creditos-big" id="creditos">–</div>
+    <div class="creditos-sub">1 crédito = 1 broma generada</div>
+  </div>
+
+  <a href="#" class="btn btn-primary" id="btn-recargar">💳 Recargar créditos</a>
+  <a href="/categorias" class="btn btn-secondary">🎯 Generar una broma</a>
+
+  <div class="divider"></div>
+
+  <a href="#" class="btn btn-danger" id="btn-salir">Cerrar sesión</a>
+</div>
+
+<script>
+const SURL = "https://xnrhnmrghxtrrylnlnuv.supabase.co";
+const SKEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY";
+const sb = supabase.createClient(SURL, SKEY);
+
+(async function() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.href = '/login'; return; }
+
+  document.getElementById('email').textContent = session.user.email;
+
+  const res = await fetch('/api/creditos', { headers: { 'Authorization': 'Bearer ' + session.access_token } });
+  const data = await res.json();
+  document.getElementById('creditos').textContent = data.creditos ?? 0;
+
+  document.getElementById('btn-salir').addEventListener('click', async (e) => {
+    e.preventDefault();
+    await sb.auth.signOut();
+    window.location.href = '/';
+  });
+
+  document.getElementById('btn-recargar').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = '/precios';
+  });
+})();
+</script>
+</body>
+</html>
