@@ -211,262 +211,61 @@ footer a:hover{color:var(--text)}
 
 <!-- EXAMPLES -->
 <!-- EJEMPLOS -->
-<div class="section" id="ejemplos" style="padding:60px 20px;background:#0a0a0f;">
-  <div style="text-align:center;margin-bottom:40px;">
+<div class="section" id="ejemplos" style="padding:60px 0;background:#0a0a0f;overflow:hidden;">
+  <div style="text-align:center;margin-bottom:40px;padding:0 20px;">
     <div style="color:#8A5CFF;font-size:13px;font-weight:600;letter-spacing:2px;margin-bottom:10px;">EJEMPLOS REALES</div>
     <h2 style="font-size:2rem;font-weight:800;color:white;margin:0;">Tan reales que se lo creerán</h2>
   </div>
-  <div class="examples-slider-grid">
+  <div class="fp-carousel">
+    <div class="fp-track">
 
-    <div class="ex-card">
-      <div class="ex-label">🚗 Coche destrozado</div>
-      <div class="ex-slider-wrap">
-        <img class="ex-img ex-after" src="img/FOTO DESPUES COCHE.png" alt="después">
-        <div class="ex-clip"><img class="ex-img ex-before" src="img/FOTO ANTES COCHE.png" alt="antes"></div>
-        <div class="ex-handle"><div class="ex-btn"></div></div>
-        <span class="ex-tag ex-tag-antes">ANTES</span>
-        <span class="ex-tag ex-tag-despues">DESPUÉS</span>
+      <div class="fp-card">
+        <div class="fp-img-top"><img src="img/FOTO ANTES COCHE.png" alt="antes"><span class="fp-badge fp-avant">ANTES</span></div>
+        <div class="fp-img-bot"><img src="img/FOTO DESPUES COCHE.png" alt="después"><span class="fp-badge fp-apres">DESPUÉS</span></div>
+        <div class="fp-card-label">🚗 Coche destrozado</div>
       </div>
-    </div>
 
-    <div class="ex-card">
-      <div class="ex-label">🏠 Cocina inundada</div>
-      <div class="ex-slider-wrap">
-        <img class="ex-img ex-after" src="img/FOTO DESPUES COCINA.png" alt="después">
-        <div class="ex-clip"><img class="ex-img ex-before" src="img/FOTO ANTES COCINA.png" alt="antes"></div>
-        <div class="ex-handle"><div class="ex-btn"></div></div>
-        <span class="ex-tag ex-tag-antes">ANTES</span>
-        <span class="ex-tag ex-tag-despues">DESPUÉS</span>
+      <div class="fp-card">
+        <div class="fp-img-top"><img src="img/FOTO ANTES COCINA.png" alt="antes"><span class="fp-badge fp-avant">ANTES</span></div>
+        <div class="fp-img-bot"><img src="img/FOTO DESPUES COCINA.png" alt="después"><span class="fp-badge fp-apres">DESPUÉS</span></div>
+        <div class="fp-card-label">🏠 Cocina inundada</div>
       </div>
-    </div>
 
-    <div class="ex-card">
-      <div class="ex-label">⌚ Reloj de lujo</div>
-      <div class="ex-slider-wrap">
-        <img class="ex-img ex-after" src="img/FOTO RELOJ DESPUES.png" alt="después">
-        <div class="ex-clip"><img class="ex-img ex-before" src="img/FOTO ANTES RELOJ.jpg" alt="antes"></div>
-        <div class="ex-handle"><div class="ex-btn"></div></div>
-        <span class="ex-tag ex-tag-antes">ANTES</span>
-        <span class="ex-tag ex-tag-despues">DESPUÉS</span>
+      <div class="fp-card">
+        <div class="fp-img-top"><img src="img/FOTO ANTES RELOJ.jpg" alt="antes"><span class="fp-badge fp-avant">ANTES</span></div>
+        <div class="fp-img-bot"><img src="img/FOTO RELOJ DESPUES.png" alt="después"><span class="fp-badge fp-apres">DESPUÉS</span></div>
+        <div class="fp-card-label">⌚ Reloj de lujo</div>
       </div>
-    </div>
 
-    <div class="ex-card">
-      <div class="ex-label">🛋️ Salón destrozado</div>
-      <div class="ex-slider-wrap">
-        <img class="ex-img ex-after" src="img/FOTO DESPUES SALON.png" alt="después">
-        <div class="ex-clip"><img class="ex-img ex-before" src="img/FOTO SALON ANTES.png" alt="antes"></div>
-        <div class="ex-handle"><div class="ex-btn"></div></div>
-        <span class="ex-tag ex-tag-antes">ANTES</span>
-        <span class="ex-tag ex-tag-despues">DESPUÉS</span>
+      <div class="fp-card">
+        <div class="fp-img-top"><img src="img/FOTO SALON ANTES.png" alt="antes"><span class="fp-badge fp-avant">ANTES</span></div>
+        <div class="fp-img-bot"><img src="img/FOTO DESPUES SALON.png" alt="después"><span class="fp-badge fp-apres">DESPUÉS</span></div>
+        <div class="fp-card-label">🛋️ Salón destrozado</div>
       </div>
-    </div>
 
-    <div class="ex-card">
-      <div class="ex-label">🏖️ Intruso en terraza</div>
-      <div class="ex-slider-wrap">
-        <img class="ex-img ex-after" src="img/FOTO CON PERSONA TERRAZA.png" alt="después">
-        <div class="ex-clip"><img class="ex-img ex-before" src="img/FOTO SIN NADIE TERRAZA.png" alt="antes"></div>
-        <div class="ex-handle"><div class="ex-btn"></div></div>
-        <span class="ex-tag ex-tag-antes">ANTES</span>
-        <span class="ex-tag ex-tag-despues">DESPUÉS</span>
+      <div class="fp-card">
+        <div class="fp-img-top"><img src="img/FOTO SIN NADIE TERRAZA.png" alt="antes"><span class="fp-badge fp-avant">ANTES</span></div>
+        <div class="fp-img-bot"><img src="img/FOTO CON PERSONA TERRAZA.png" alt="después"><span class="fp-badge fp-apres">DESPUÉS</span></div>
+        <div class="fp-card-label">🏖️ Intruso en terraza</div>
       </div>
-    </div>
 
+    </div>
   </div>
 </div>
 
 <style>
-.examples-slider-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-@media(max-width:768px){
-  .examples-slider-grid { grid-template-columns: 1fr; }
-}
-.ex-card {
-  border-radius: 16px;
-  overflow: hidden;
-  background: #13131a;
-  border: 1px solid #2a2a3a;
-}
-.ex-label {
-  padding: 12px 16px;
-  color: #ccc;
-  font-size: 14px;
-  font-weight: 600;
-}
-.ex-slider-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4/3;
-  overflow: hidden;
-  cursor: ew-resize;
-  user-select: none;
-}
-.ex-img {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-.ex-clip {
-  position: absolute;
-  top: 0; left: 0;
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-}
-.ex-clip .ex-img {
-  width: auto;
-  min-width: 100%;
-  max-width: none;
-}
-.ex-handle {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 3px;
-  height: 100%;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ex-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ex-btn::before {
-  content: "◀▶";
-  font-size: 10px;
-  color: #333;
-}
-.ex-tag {
-  position: absolute;
-  top: 10px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  color: white;
-}
-.ex-tag-antes {
-  left: 10px;
-  background: rgba(0,0,0,0.6);
-}
-.ex-tag-despues {
-  right: 10px;
-  background: #7c3aed;
-}
+.fp-carousel { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 0 20px 20px; }
+.fp-carousel::-webkit-scrollbar { display: none; }
+.fp-track { display: flex; gap: 20px; width: max-content; padding: 4px 0; }
+.fp-card { width: 300px; border-radius: 20px; overflow: hidden; background: #13131a; border: 1px solid #2a2a3a; flex-shrink: 0; }
+.fp-img-top, .fp-img-bot { position: relative; width: 100%; height: 200px; overflow: hidden; }
+.fp-img-top img, .fp-img-bot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fp-badge { position: absolute; top: 10px; left: 10px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; color: white; }
+.fp-avant { background: rgba(0,0,0,0.6); }
+.fp-apres { background: #7c3aed; }
+.fp-card-label { padding: 12px 16px; color: #ccc; font-size: 14px; font-weight: 600; }
 </style>
 
-<script>
-(function(){
-  function initSliders(){
-    document.querySelectorAll('.ex-slider-wrap').forEach(function(wrap){
-      if(wrap.dataset.init) return;
-      wrap.dataset.init = '1';
-      var clip = wrap.querySelector('.ex-clip');
-      var handle = wrap.querySelector('.ex-handle');
-      var dragging = false;
-
-      function setPos(x){
-        var rect = wrap.getBoundingClientRect();
-        var pct = Math.min(Math.max((x - rect.left) / rect.width * 100, 0), 100);
-        clip.style.width = pct + '%';
-        handle.style.left = pct + '%';
-      }
-
-      wrap.addEventListener('mousedown', function(e){ dragging=true; setPos(e.clientX); });
-      window.addEventListener('mousemove', function(e){ if(dragging) setPos(e.clientX); });
-      window.addEventListener('mouseup', function(){ dragging=false; });
-
-      wrap.addEventListener('touchstart', function(e){ dragging=true; setPos(e.touches[0].clientX); },{passive:true});
-      window.addEventListener('touchmove', function(e){ if(dragging) setPos(e.touches[0].clientX); },{passive:true});
-      window.addEventListener('touchend', function(){ dragging=false; });
-    });
-  }
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded', initSliders);
-  } else {
-    initSliders();
-  }
-})();
-</script>
-<div class="section" id="ejemplos" style="padding:60px 20px;background:#0a0a0f;">
-  <div style="text-align:center;margin-bottom:40px;">
-    <div style="color:#8A5CFF;font-size:13px;font-weight:600;letter-spacing:2px;margin-bottom:10px;">EJEMPLOS REALES</div>
-    <h2 style="font-size:2rem;font-weight:800;color:white;margin:0;">Tan reales que se lo creerán</h2>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:1200px;margin:0 auto;">
-    <div style="border-radius:16px;overflow:hidden;background:#111;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;">
-        <div style="position:relative;"><img src="img/FOTO%20ANTES%20COCHE.png" style="width:100%;height:220px;object-fit:cover;"><span style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.7);color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">ANTES</span></div>
-        <div style="position:relative;"><img src="img/FOTO%20DESPUES%20COCHE.png" style="width:100%;height:220px;object-fit:cover;"><span style="position:absolute;top:10px;left:10px;background:#8A5CFF;color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">DESPUÉS</span></div>
-      </div>
-      <div style="padding:12px;color:#aaa;font-size:13px;">🚗 Coche destrozado</div>
-    </div>
-    <div style="border-radius:16px;overflow:hidden;background:#111;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;">
-        <div style="position:relative;"><img src="img/FOTO%20ANTES%20COCINA.png" style="width:100%;height:220px;object-fit:cover;"><span style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.7);color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">ANTES</span></div>
-        <div style="position:relative;"><img src="img/FOTO%20DESPUES%20COCINA.png" style="width:100%;height:220px;object-fit:cover;"><span style="position:absolute;top:10px;left:10px;background:#8A5CFF;color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">DESPUÉS</span></div>
-      </div>
-      <div style="padding:12px;color:#aaa;font-size:13px;">🏠 Cocina inundada</div>
-    </div>
-    <div style="border-radius:16px;overflow:hidden;background:#111;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;">
-        <div style="position:relative;"><img src="img/FOTO%20ANTES%20RELOJ.jpg" style="width:100%;height:220px;object-fit:cover;"><span style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.7);color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">ANTES</span></div>
-        <div style="position:relative;"><img src="img/FOTO%20RELOJ%20DESPUES.png" style="width:100%;height:220px;object-fit:cover;"><span style="position:absolute;top:10px;left:10px;background:#8A5CFF;color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">DESPUÉS</span></div>
-      </div>
-      <div style="padding:12px;color:#aaa;font-size:13px;">⌚ Reloj de lujo</div>
-    </div>
-    <div style="border-radius:16px;overflow:hidden;background:#111;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;">
-        <div style="position:relative;"><img src="img/FOTO%20SALON%20ANTES.png" style="width:100%;height:220px;object-fit:cover;"><span style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.7);color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">ANTES</span></div>
-        <div style="position:relative;"><img src="img/FOTO%20DESPUES%20SALON.png" style="width:100%;height:220px;object-fit:cover;"><span style="position:absolute;top:10px;left:10px;background:#8A5CFF;color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">DESPUÉS</span></div>
-      </div>
-      <div style="padding:12px;color:#aaa;font-size:13px;">🛋️ Salón destrozado</div>
-    </div>
-  </div>
-</div>
-<!-- BROMAS -->
-<div style="background:#0A0A12;padding:1px 0">
-<div class="section">
-  <div class="section-tag">Tipos de bromas</div>
-  <div class="section-title">Elige tu arma 😈</div>
-  <div class="bromas-grid">
-    <div class="broma-card"><div class="broma-emoji">🚗</div><div class="broma-name">Coche destrozado</div><div class="broma-desc">Capó hundido, parabrisas roto, matrícula española incluida.</div><span class="badge badge-hot">🔥 Más popular</span></div>
-    <div class="broma-card"><div class="broma-emoji">🚿</div><div class="broma-name">Inundación</div><div class="broma-desc">Mercadona flotando, Puleva, aceite… y Franco en la pared.</div><span class="badge badge-viral">📈 Viral</span></div>
-    <div class="broma-card"><div class="broma-emoji">🏠</div><div class="broma-name">Intruso en casa</div><div class="broma-desc">Un desconocido tan tranquilo en tu terraza o salón.</div><span class="badge badge-hot">🔥 Top reacciones</span></div>
-    <div class="broma-card"><div class="broma-emoji">🔥</div><div class="broma-name">Incendio cocina</div><div class="broma-desc">Microondas en llamas, paredes ennegrecidas, extintor en el suelo.</div><span class="badge badge-new">✨ Nuevo</span></div>
-    <div class="broma-card"><div class="broma-emoji">🪟</div><div class="broma-name">Ventana rota</div><div class="broma-desc">El cristal de casa destrozado. Para los que están de viaje.</div><span class="badge badge-new">✨ Nuevo</span></div>
-    <div class="broma-card"><div class="broma-emoji">🏎️</div><div class="broma-name">Coche de lujo</div><div class="broma-desc">El Seat de tu padre convertido en Ferrari en el mismo parking.</div><span class="badge badge-viral">📈 Trending</span></div>
-  </div>
-</div>
-</div>
-
-<!-- HOW -->
-<div class="section">
-  <div class="section-tag">Cómo funciona</div>
-  <div class="section-title">En 3 pasos, la broma lista</div>
-  <div class="how-grid">
-    <div class="how-step"><div class="how-num">1</div><div class="how-icon">📸</div><div class="how-title">Sube tu foto</div><div class="how-text">Foto del coche, la casa, el salón… Cuanto más real, mejor.</div></div>
-    <div class="how-step"><div class="how-num">2</div><div class="how-icon">✍️</div><div class="how-title">Describe la broma</div><div class="how-text">Dile a la IA exactamente qué quieres. Sé específico para mejores resultados.</div></div>
-    <div class="how-step"><div class="how-num">3</div><div class="how-icon">🚀</div><div class="how-title">Descarga y envía</div><div class="how-text">Lista en 15 segundos. Mándasela y espera la reacción 😈</div></div>
-  </div>
-</div>
 
 <!-- TESTIMONIALS -->
 <div style="background:#0A0A12;padding:1px 0">
