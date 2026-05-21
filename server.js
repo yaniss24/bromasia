@@ -17,6 +17,8 @@ app.use(express.static('.'));
 app.get('/privacidad', (req, res) => res.sendFile(__dirname + '/privacidad.html'));
 app.get('/terminos', (req, res) => res.sendFile(__dirname + '/terminos.html'));
 app.get('/aviso-legal', (req, res) => res.sendFile(__dirname + '/aviso-legal.html'));
+app.get('/login', (req, res) => res.sendFile(__dirname + '/login.html'));
+app.get('/registro', (req, res) => res.sendFile(__dirname + '/registro.html'));
 
 app.use(express.json());
 
