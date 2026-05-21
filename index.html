@@ -280,6 +280,37 @@ footer a:hover{color:var(--text)}
 })();
 </script>
 
+
+<script>
+(function(){
+  function startAutoplay(){
+    var el = document.querySelector('.fp-carousel');
+    if(!el) return;
+    var speed = 1;
+    var paused = false;
+    el.addEventListener('mouseenter', function(){ paused=true; });
+    el.addEventListener('mouseleave', function(){ paused=false; });
+    el.addEventListener('touchstart', function(){ paused=true; },{passive:true});
+    el.addEventListener('touchend', function(){ setTimeout(function(){ paused=false; }, 1000); },{passive:true});
+    function step(){
+      if(!paused){
+        el.scrollLeft += speed;
+        if(el.scrollLeft >= el.scrollWidth - el.clientWidth){
+          el.scrollLeft = 0;
+        }
+      }
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', startAutoplay);
+  } else {
+    startAutoplay();
+  }
+})();
+</script>
+
 <!-- TESTIMONIALS -->
 <div style="background:#0A0A12;padding:1px 0">
 <div class="section">
