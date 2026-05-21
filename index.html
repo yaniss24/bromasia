@@ -473,7 +473,7 @@ async function generarBroma(){
   const sb = supabase.createClient(SURL, SKEY);
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
-    const navBtns = document.querySelector(".nav-btns");
+    const navBtns = document.querySelector(".nav-right");
     if (navBtns) {
       const res = await fetch("/api/creditos", { headers: { "Authorization": "Bearer " + session.access_token } });
       const data = await res.json();
