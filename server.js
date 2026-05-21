@@ -13,45 +13,63 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static('.'));
+app.use(express.json());
 
+const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
+const LEMON_API_KEY = process.env.LEMON_API_KEY;
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+
+// Rutas páginas
 app.get('/privacidad', (req, res) => res.sendFile(__dirname + '/privacidad.html'));
 app.get('/terminos', (req, res) => res.sendFile(__dirname + '/terminos.html'));
 app.get('/aviso-legal', (req, res) => res.sendFile(__dirname + '/aviso-legal.html'));
 app.get('/login', (req, res) => res.sendFile(__dirname + '/login.html'));
 app.get('/registro', (req, res) => res.sendFile(__dirname + '/registro.html'));
 app.get('/categorias', (req, res) => res.sendFile(__dirname + '/categorias.html'));
+app.get('/generador', (req, res) => res.sendFile(__dirname + '/generador.html'));
 
-app.use(express.json());
-
-const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
-const LEMON_API_KEY = process.env.LEMON_API_KEY;
-const ipUsadas = new Set();
-
-app.post('/api/generar', upload.single('foto'), async (req, res) => {
+// API créditos
+app.get('/api/creditos', async (req, res) => {
   try {
-    console.log('REQUEST recibido');
-    console.log('Body keys:', Object.keys(req.body));
-    console.log('File:', req.file ? req.file.originalname : 'NO FILE');
-    console.log('Broma:', req.body.broma || 'NO BROMA');
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.json({ creditos: null });
+    const { data: { user } } = await supabase.auth.getUser(token);
+    if (!user) return res.json({ creditos: null });
+    const { data } = await supabase.from('usuarios').select('creditos').eq('id', user.id).single();
+    res.json({ creditos: data?.creditos ?? 0 });
+  } catch(err) {
+    res.json({ creditos: 0 });
+  }
+});
 
-    if (!req.file) return res.status(400).json({ error: 'No se recibio foto' });
-    if (!req.body.broma) return res.status(400).json({ error: 'No se recibio descripcion' });
+// API generar
+app.post('/api/generar', upload.single('imagen'), async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    let userId = null;
+    let creditos = 0;
 
-    const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
-    console.log('IP:', ip);
-
-    if (ipUsadas.has(ip)) {
-      fs.unlinkSync(req.file.path);
-      return res.status(403).json({ error: 'limite', mensaje: 'Ya usaste tu broma gratis. ¡Desbloquea para generar más!' });
+    if (token) {
+      const { data: { user } } = await supabase.auth.getUser(token);
+      if (user) {
+        userId = user.id;
+        const { data } = await supabase.from('usuarios').select('creditos').eq('id', userId).single();
+        creditos = data?.creditos ?? 0;
+        if (creditos <= 0) {
+          if (req.file) fs.unlinkSync(req.file.path);
+          return res.status(403).json({ error: 'Sin créditos. Recarga para continuar.' });
+        }
+      }
     }
 
-    const prompt = req.body.broma;
+    if (!req.file) return res.status(400).json({ error: 'No se recibió foto' });
+
+    const prompt = req.body.prompt || req.body.broma || 'Transforma esta foto de forma sorprendente y realista';
     const imageData = fs.readFileSync(req.file.path);
     const base64 = imageData.toString('base64');
     const mime = req.file.mimetype || 'image/jpeg';
     const dataUri = `data:${mime};base64,${base64}`;
-
-    console.log('Llamando a Replicate...');
 
     const response = await fetch('https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-pro/predictions', {
       method: 'POST',
@@ -61,53 +79,43 @@ app.post('/api/generar', upload.single('foto'), async (req, res) => {
         'Prefer': 'wait'
       },
       body: JSON.stringify({
-        input: {
-          prompt,
-          input_image: dataUri,
-          output_format: 'jpg',
-          safety_tolerance: 5
-        }
+        input: { prompt, input_image: dataUri, output_format: 'jpg', safety_tolerance: 5 }
       })
     });
 
     const data = await response.json();
     fs.unlinkSync(req.file.path);
 
-    console.log('Replicate status:', data.status);
-    console.log('Replicate error:', data.error || 'ninguno');
-
     const imagen = Array.isArray(data.output) ? data.output[0] : data.output;
-    if (!imagen) return res.status(500).json({ error: data.error || 'Sin output' });
+    if (!imagen) return res.status(500).json({ error: data.error || 'Sin output de Replicate' });
 
-    ipUsadas.add(ip);
-    res.json({ imagen });
+    // Descontar crédito
+    if (userId) {
+      await supabase.from('usuarios').update({ creditos: creditos - 1 }).eq('id', userId);
+    }
 
+    res.json({ url: imagen, imagen });
   } catch (err) {
     console.error('ERROR:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
-app.post('/api/verificar-pago', async (req, res) => {
+// Webhook Lemon Squeezy
+app.post('/api/webhook-lemon', express.raw({ type: 'application/json' }), async (req, res) => {
   try {
-    const { email } = req.body;
-    if (!email) return res.status(400).json({ ok: false });
-    const response = await fetch(`https://api.lemonsqueezy.com/v1/subscriptions?filter[user_email]=${encodeURIComponent(email)}`, {
-      headers: {
-        'Authorization': `Bearer ${LEMON_API_KEY}`,
-        'Accept': 'application/vnd.api+json'
+    const payload = JSON.parse(req.body);
+    const email = payload?.data?.attributes?.user_email;
+    const evento = payload?.meta?.event_name;
+    if (email && (evento === 'order_created' || evento === 'subscription_created')) {
+      const { data: usuario } = await supabase.from('usuarios').select('id, creditos').eq('email', email).single();
+      if (usuario) {
+        await supabase.from('usuarios').update({ creditos: (usuario.creditos || 0) + 10 }).eq('id', usuario.id);
       }
-    });
-    const data = await response.json();
-    const subs = data.data || [];
-    const activa = subs.some(s => s.attributes.status === 'active');
-    if (activa) {
-      const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
-      ipUsadas.delete(ip);
     }
-    res.json({ ok: activa });
-  } catch (err) {
-    res.status(500).json({ ok: false });
+    res.sendStatus(200);
+  } catch(err) {
+    res.sendStatus(200);
   }
 });
 

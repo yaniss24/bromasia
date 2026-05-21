@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador · BromasIA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:white;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:1px solid #1a1a2e}
+.logo{font-size:1.4rem;font-weight:800;text-decoration:none;color:white}
+.logo span{color:#8A5CFF}
+.container{max-width:600px;margin:0 auto;padding:40px 20px}
+h1{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+h1 span{color:#8A5CFF}
+.subtitle{color:#888;margin-bottom:32px}
+.upload-area{border:2px dashed #2a2a3a;border-radius:16px;padding:40px;text-align:center;cursor:pointer;transition:border-color 0.3s;margin-bottom:24px;position:relative}
+.upload-area:hover{border-color:#8A5CFF}
+.upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{font-size:3rem;margin-bottom:12px}
+.upload-text{color:#888;font-size:14px}
+.preview-img{width:100%;border-radius:12px;margin-bottom:24px;display:none}
+.prompt-box{background:#12121f;border:1px solid #2a2a3a;border-radius:12px;padding:16px;margin-bottom:24px}
+.prompt-label{font-size:12px;color:#8A5CFF;font-weight:600;margin-bottom:8px}
+.prompt-text{color:#ccc;font-size:14px;line-height:1.5}
+.btn-generate{width:100%;background:linear-gradient(135deg,#8A5CFF,#b44fff);color:white;padding:18px;border-radius:14px;font-size:1.1rem;font-weight:700;border:none;cursor:pointer;margin-bottom:16px}
+.btn-generate:disabled{opacity:0.5;cursor:not-allowed}
+.resultado{display:none;margin-top:24px}
+.resultado img{width:100%;border-radius:16px;margin-bottom:16px}
+.btn-download{width:100%;background:#1a1a2e;border:1px solid #8A5CFF;color:#8A5CFF;padding:14px;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;display:block;text-align:center}
+.loading{display:none;text-align:center;padding:40px}
+.spinner{width:50px;height:50px;border:3px solid #2a2a3a;border-top:3px solid #8A5CFF;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error{background:#ff444422;border:1px solid #ff4444;border-radius:12px;padding:16px;color:#ff4444;display:none;margin-bottom:16px}
+.creditos{background:#12121f;border:1px solid #2a2a3a;border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.creditos-label{color:#888;font-size:14px}
+.creditos-num{color:#8A5CFF;font-weight:700}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">Bromas<span>IA</span></a>
+</nav>
+<div class="container">
+  <h1>Lanza tu <span>broma</span></h1>
+  <p class="subtitle">Sube una foto y la IA la transforma en segundos</p>
+
+  <div class="creditos">
+    <span class="creditos-label">Créditos disponibles</span>
+    <span class="creditos-num" id="creditos-num">Cargando...</span>
+  </div>
+
+  <div class="upload-area" id="uploadArea">
+    <input type="file" id="fileInput" accept="image/*">
+    <div class="upload-icon">📸</div>
+    <div style="font-weight:600;margin-bottom:4px">Sube tu foto</div>
+    <div class="upload-text">JPG, PNG o WEBP · Máx 10MB</div>
+  </div>
+
+  <img class="preview-img" id="previewImg">
+
+  <div class="prompt-box">
+    <div class="prompt-label">✨ EFECTO IA</div>
+    <div class="prompt-text" id="promptText">Cargando...</div>
+  </div>
+
+  <div class="error" id="errorBox"></div>
+
+  <button class="btn-generate" id="btnGenerar" onclick="generar()">🎯 Generar mi broma</button>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div style="color:#888">La IA está trabajando...<br><small>Puede tardar 20-40 segundos</small></div>
+  </div>
+
+  <div class="resultado" id="resultado">
+    <img id="resultImg">
+    <a class="btn-download" id="btnDownload" download="bromasia.png">⬇️ Descargar imagen</a>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const prompt = params.get('prompt') || 'Transforma esta foto de forma realista y sorprendente';
+const categoria = params.get('cat') || 'broma';
+
+document.getElementById('promptText').textContent = prompt;
+
+// Preview imagen
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = document.getElementById('previewImg');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    document.getElementById('uploadArea').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+});
+
+// Cargar créditos
+async function cargarCreditos() {
+  try {
+    const res = await fetch('/api/creditos');
+    const data = await res.json();
+    if (data.creditos !== undefined) {
+      document.getElementById('creditos-num').textContent = data.creditos + ' créditos';
+    } else {
+      window.location.href = '/login';
+    }
+  } catch(e) {
+    document.getElementById('creditos-num').textContent = '–';
+  }
+}
+cargarCreditos();
+
+async function generar() {
+  const file = document.getElementById('fileInput').files[0];
+  if (!file) { mostrarError('Sube una foto primero'); return; }
+
+  document.getElementById('btnGenerar').disabled = true;
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('resultado').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'none';
+
+  const formData = new FormData();
+  formData.append('imagen', file);
+  formData.append('prompt', prompt);
+
+  try {
+    const res = await fetch('/api/generar', { method: 'POST', body: formData });
+    const data = await res.json();
+
+    if (data.error) { mostrarError(data.error); return; }
+
+    document.getElementById('resultImg').src = data.url;
+    document.getElementById('btnDownload').href = data.url;
+    document.getElementById('resultado').style.display = 'block';
+    cargarCreditos();
+  } catch(e) {
+    mostrarError('Error de conexión. Inténtalo de nuevo.');
+  } finally {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('btnGenerar').disabled = false;
+  }
+}
+
+function mostrarError(msg) {
+  const el = document.getElementById('errorBox');
+  el.textContent = msg;
+  el.style.display = 'block';
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('btnGenerar').disabled = false;
+}
+</script>
+</body>
+</html>
