@@ -522,13 +522,9 @@ async function generarBroma(){
   const btn = document.getElementById('hamburger-btn');
   if (btn) btn.style.display = 'flex';
 
-  // Ocultar nav-btns normales si existen
-  const navBtns = document.querySelector('.nav-btns') || document.querySelector('.nav-right');
-  if (navBtns) {
-    // Mantener solo el hamburger
-    const links = navBtns.querySelectorAll('a:not(.logo)');
-    links.forEach(l => l.style.display = 'none');
-  }
+  // Ocultar nav-right completamente
+  const navBtns = document.querySelector('.nav-right');
+  if (navBtns) navBtns.style.display = 'none';
 
   // Cargar datos
   document.getElementById('side-email').textContent = session.user.email;
