@@ -465,6 +465,23 @@ async function generarBroma(){
   }
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(async function() {
+  const SURL = "https://xnrhnmrghxtrrylnlnuv.supabase.co";
+  const SKEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY";
+  const sb = supabase.createClient(SURL, SKEY);
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    const navBtns = document.querySelector(".nav-btns");
+    if (navBtns) {
+      const res = await fetch("/api/creditos", { headers: { "Authorization": "Bearer " + session.access_token } });
+      const data = await res.json();
+      navBtns.innerHTML = `<span style="color:#8A5CFF;font-weight:700;font-size:14px">🎯 ${data.creditos ?? 0} créditos</span><a href="/generador" style="background:#8A5CFF;color:white;padding:8px 18px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600">Generar</a><a href="#" onclick="supabase.createClient('${SURL}','${SKEY}').auth.signOut().then(()=>window.location.reload());return false" style="background:transparent;border:1px solid #333;color:white;padding:8px 18px;border-radius:8px;text-decoration:none;font-size:14px">Salir</a>`;
+    }
+  }
+})();
+</script>
 </body>
 </html>
 
