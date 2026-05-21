@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elige tu broma · BromasIA</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a0a0f;color:white;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
@@ -83,40 +84,40 @@ section{padding:20px 40px}
   </div>
   <div class="carousel-wrapper">
     <div class="carousel" id="carousel">
-      <div class="carousel-card" onclick="abrirModal()">
-        <img src="/img/escapando-policia.png" alt="Escapando">
+      <div class="carousel-card" onclick="irGenerador(this)">
+        <img src="/img/escapando-policia.png" data-prompt="Add realistic blue police lights behind this car at night, police chase scene, photorealistic" alt="Escapando">
         <div class="card-overlay">
           <span class="card-badge badge-hot">🚨 Hot</span>
           <span class="card-title">Escapando de la policía</span>
           <span class="card-sub">Luces azules detrás</span>
         </div>
       </div>
-      <div class="carousel-card" onclick="abrirModal()">
-        <img src="/img/policia-casa.png" alt="Policia">
+      <div class="carousel-card" onclick="irGenerador(this)">
+        <img src="/img/policia-casa.png" data-prompt="Add a realistic police patrol car parked in the driveway or garage, photorealistic" alt="Policia">
         <div class="card-overlay">
           <span class="card-badge badge-shock">💥 Shock</span>
           <span class="card-title">Policía en mi casa</span>
           <span class="card-sub">Coche patrulla en el garaje</span>
         </div>
       </div>
-      <div class="carousel-card" onclick="abrirModal()">
-        <img src="/img/ladrones-jardin.png" alt="Ladrones">
+      <div class="carousel-card" onclick="irGenerador(this)">
+        <img src="/img/ladrones-jardin.png" data-prompt="Add two realistic burglars/intruders sneaking in the garden at night, dark scene, photorealistic" alt="Ladrones">
         <div class="card-overlay">
           <span class="card-badge badge-viral">🌀 Viral</span>
           <span class="card-title">Ladrones en el jardín</span>
           <span class="card-sub">Dos intrusos de noche</span>
         </div>
       </div>
-      <div class="carousel-card" onclick="abrirModal()">
-        <img src="/img/tv-reventada.png" alt="TV">
+      <div class="carousel-card" onclick="irGenerador(this)">
+        <img src="/img/tv-reventada.png" data-prompt="Make the TV screen look completely shattered and destroyed, cracked screen with impact damage, photorealistic" alt="TV">
         <div class="card-overlay">
           <span class="card-badge badge-hot">🚨 Hot</span>
           <span class="card-title">TV reventada</span>
           <span class="card-sub">Pantalla destrozada</span>
         </div>
       </div>
-      <div class="carousel-card" onclick="abrirModal()">
-        <img src="/img/ferrari.png" alt="Ferrari">
+      <div class="carousel-card" onclick="irGenerador(this)">
+        <img src="/img/ferrari.png" data-prompt="Add a realistic red Ferrari parked in the driveway or garage, photorealistic" alt="Ferrari">
         <div class="card-overlay">
           <span class="card-badge badge-viral">🌀 Viral</span>
           <span class="card-title">Me compré un Ferrari</span>
@@ -132,47 +133,47 @@ section{padding:20px 40px}
     <h2>Todas las categorías</h2>
   </div>
   <div class="grid">
-    <div class="grid-card" onclick="abrirModal()">
-      <img src="/img/casa-llamas.png" alt="Casa">
+    <div class="grid-card" onclick="irGenerador(this)">
+      <img src="/img/casa-llamas.png" data-prompt="Make the house look like it is on fire with realistic flames and smoke, photorealistic" alt="Casa">
       <div class="card-overlay">
         <span class="card-badge badge-viral">🔥 Viral</span>
         <span class="card-title">Casa en llamas</span>
         <span class="card-sub">Tu hogar ardiendo</span>
       </div>
     </div>
-    <div class="grid-card" onclick="abrirModal()">
-      <img src="/img/escapando-policia.png" alt="Policia">
+    <div class="grid-card" onclick="irGenerador(this)">
+      <img src="/img/escapando-policia.png" data-prompt="Add realistic blue police lights behind this car at night, police chase scene, photorealistic" alt="Policia">
       <div class="card-overlay">
         <span class="card-badge badge-hot">🚨 Hot</span>
         <span class="card-title">Escapando de la policía</span>
         <span class="card-sub">Luces azules detrás</span>
       </div>
     </div>
-    <div class="grid-card" onclick="abrirModal()">
-      <img src="/img/policia-casa.png" alt="Policia casa">
+    <div class="grid-card" onclick="irGenerador(this)">
+      <img src="/img/policia-casa.png" data-prompt="Add a realistic police patrol car parked in the driveway or garage, photorealistic" alt="Policia casa">
       <div class="card-overlay">
         <span class="card-badge badge-shock">💥 Shock</span>
         <span class="card-title">Policía en mi casa</span>
         <span class="card-sub">Coche patrulla en el garaje</span>
       </div>
     </div>
-    <div class="grid-card" onclick="abrirModal()">
-      <img src="/img/ladrones-jardin.png" alt="Ladrones">
+    <div class="grid-card" onclick="irGenerador(this)">
+      <img src="/img/ladrones-jardin.png" data-prompt="Add two realistic burglars/intruders sneaking in the garden at night, dark scene, photorealistic" alt="Ladrones">
       <div class="card-overlay">
         <span class="card-badge badge-urgente">⚡ Urgente</span>
         <span class="card-title">Ladrones en el jardín</span>
         <span class="card-sub">Dos intrusos de noche</span>
       </div>
     </div>
-    <div class="grid-card" onclick="abrirModal()">
-      <img src="/img/tv-reventada.png" alt="TV">
+    <div class="grid-card" onclick="irGenerador(this)">
+      <img src="/img/tv-reventada.png" data-prompt="Make the TV screen look completely shattered and destroyed, cracked screen with impact damage, photorealistic" alt="TV">
       <div class="card-overlay">
         <span class="card-badge badge-shock">💥 Shock</span>
         <span class="card-title">TV reventada</span>
         <span class="card-sub">Pantalla destrozada</span>
       </div>
     </div>
-    <div class="grid-card" onclick="abrirModal()">
+    <div class="grid-card" onclick="irGenerador(this)">
       <img src="/img/puerta-fracturada.png" alt="Puerta">
       <div class="card-overlay">
         <span class="card-badge badge-urgente">⚡ Urgente</span>
@@ -180,24 +181,24 @@ section{padding:20px 40px}
         <span class="card-sub">Alguien entró a la fuerza</span>
       </div>
     </div>
-    <div class="grid-card" onclick="abrirModal()">
-      <img src="/img/ferrari.png" alt="Ferrari">
+    <div class="grid-card" onclick="irGenerador(this)">
+      <img src="/img/ferrari.png" data-prompt="Add a realistic red Ferrari parked in the driveway or garage, photorealistic" alt="Ferrari">
       <div class="card-overlay">
         <span class="card-badge badge-viral">🌀 Viral</span>
         <span class="card-title">Me compré un Ferrari</span>
         <span class="card-sub">Aparece en tu garaje</span>
       </div>
     </div>
-    <div class="grid-card" onclick="abrirModal()">
-      <img src="/img/coche-cuneta.png" alt="Coche">
+    <div class="grid-card" onclick="irGenerador(this)">
+      <img src="/img/coche-cuneta.png" data-prompt="Make the car look like it has crashed into a ditch or barrier on the road, photorealistic" alt="Coche">
       <div class="card-overlay">
         <span class="card-badge badge-choc">😱 Choc</span>
         <span class="card-title">Coche en la cuneta</span>
         <span class="card-sub">Accidente en carretera</span>
       </div>
     </div>
-    <div class="grid-card" onclick="abrirModal()">
-      <img src="/img/tesla-fuego.png" alt="Tesla">
+    <div class="grid-card" onclick="irGenerador(this)">
+      <img src="/img/tesla-fuego.png" data-prompt="Make the Tesla car look like it is on fire with realistic flames, photorealistic" alt="Tesla">
       <div class="card-overlay">
         <span class="card-badge badge-shock">💥 Shock</span>
         <span class="card-title">Tesla en llamas</span>
@@ -207,7 +208,7 @@ section{padding:20px 40px}
   </div>
 </section>
 
-<div class="grid-card" onclick="abrirModal()"><img src="/img/furgoneta-rayada.png" alt="Furgoneta"><div class="card-overlay"><span class="card-badge badge-shock">💥 Shock</span><span class="card-title">Carrocería destrozada</span><span class="card-sub">La rayaron de arriba abajo</span></div></div><div class="grid-card" onclick="abrirModal()"><img src="/img/gasolinera.png" alt="Gasolinera"><div class="card-overlay"><span class="card-badge badge-urgente">⚡ Urgente</span><span class="card-title">Gasolina a 7,99€</span><span class="card-sub">El precio que te va a matar</span></div></div><div class="grid-card" onclick="abrirModal()"><img src="/img/wc-destrozado.png" alt="WC"><div class="card-overlay"><span class="card-badge badge-shock">💥 Shock</span><span class="card-title">WC destrozado</span><span class="card-sub">Se ha inundado todo</span></div></div><div class="grid-card" onclick="abrirModal()"><img src="/img/cerdo-horno.png" alt="Cerdo"><div class="card-overlay"><span class="card-badge badge-choc">😱 Choc</span><span class="card-title">Cabeza de cerdo en el horno</span><span class="card-sub">¿Qué hay de cena?</span></div></div><div class="grid-card" onclick="abrirModal()"><img src="/img/ratas-salon.png" alt="Ratas"><div class="card-overlay"><span class="card-badge badge-viral">🌀 Viral</span><span class="card-title">Casa invadida de ratas</span><span class="card-sub">Hay ratas por todos lados</span></div></div><div class="grid-card" onclick="abrirModal()"><img src="/img/bebe-mueca.png" alt="Bebe"><div class="card-overlay"><span class="card-badge badge-hot">🚨 Hot</span><span class="card-title">Bebé con mueca</span><span class="card-sub">La cara que puso el bebé</span></div></div><div class="grid-card" onclick="abrirModal()"><img src="/img/bebe-wagyu.png" alt="Wagyu"><div class="card-overlay"><span class="card-badge badge-viral">🌀 Viral</span><span class="card-title">Bebé carnívoro</span><span class="card-sub">Mi bebé devora su Wagyu</span></div></div><div class="grid-card" onclick="abrirModal()"><img src="/img/fontanero-musculoso.png" alt="Fontanero"><div class="card-overlay"><span class="card-badge badge-choc">😱 Choc</span><span class="card-title">El fontanero musculoso</span><span class="card-sub">El fontanero que mandé llamar...</span></div></div><div class="spacer"></div>
+<div class="grid-card" onclick="irGenerador(this)"><img src="/img/furgoneta-rayada.png" data-prompt="Add deep scratches all over the car body, multiple long scratch marks along the doors, paint damage, keyed car damage, photorealistic" alt="Furgoneta"><div class="card-overlay"><span class="card-badge badge-shock">💥 Shock</span><span class="card-title">Carrocería destrozada</span><span class="card-sub">La rayaron de arriba abajo</span></div></div><div class="grid-card" onclick="irGenerador(this)"><img src="/img/gasolinera.png" data-prompt="Change the fuel price display to show 7.99 per liter for all fuel types, realistic price board, photorealistic" alt="Gasolinera"><div class="card-overlay"><span class="card-badge badge-urgente">⚡ Urgente</span><span class="card-title">Gasolina a 7,99€</span><span class="card-sub">El precio que te va a matar</span></div></div><div class="grid-card" onclick="irGenerador(this)"><img src="/img/wc-destrozado.png" data-prompt="Make the toilet look completely overflowing with dirty water flooding the bathroom floor, sewage overflow, photorealistic" alt="WC"><div class="card-overlay"><span class="card-badge badge-shock">💥 Shock</span><span class="card-title">WC destrozado</span><span class="card-sub">Se ha inundado todo</span></div></div><div class="grid-card" onclick="irGenerador(this)"><img src="/img/cerdo-horno.png" data-prompt="Add a realistic pig head inside the oven lit up by the oven light, photorealistic" alt="Cerdo"><div class="card-overlay"><span class="card-badge badge-choc">😱 Choc</span><span class="card-title">Cabeza de cerdo en el horno</span><span class="card-sub">¿Qué hay de cena?</span></div></div><div class="grid-card" onclick="irGenerador(this)"><img src="/img/ratas-salon.png" data-prompt="Add hundreds of realistic rats covering the entire floor sofa and furniture, infestation scene, photorealistic" alt="Ratas"><div class="card-overlay"><span class="card-badge badge-viral">🌀 Viral</span><span class="card-title">Casa invadida de ratas</span><span class="card-sub">Hay ratas por todos lados</span></div></div><div class="grid-card" onclick="irGenerador(this)"><img src="/img/bebe-mueca.png" data-prompt="Make the baby face expression look extremely funny and exaggerated with wide eyes and silly grimace, photorealistic" alt="Bebe"><div class="card-overlay"><span class="card-badge badge-hot">🚨 Hot</span><span class="card-title">Bebé con mueca</span><span class="card-sub">La cara que puso el bebé</span></div></div><div class="grid-card" onclick="irGenerador(this)"><img src="/img/bebe-wagyu.png" data-prompt="Replace the food in front of the baby with a massive Wagyu ribeye steak perfectly cooked, photorealistic" alt="Wagyu"><div class="card-overlay"><span class="card-badge badge-viral">🌀 Viral</span><span class="card-title">Bebé carnívoro</span><span class="card-sub">Mi bebé devora su Wagyu</span></div></div><div class="grid-card" onclick="irGenerador(this)"><img src="/img/fontanero-musculoso.png" data-prompt="Add a shirtless muscular man standing in the room not looking at camera, realistic person, photorealistic" alt="Fontanero"><div class="card-overlay"><span class="card-badge badge-choc">😱 Choc</span><span class="card-title">El fontanero musculoso</span><span class="card-sub">El fontanero que mandé llamar...</span></div></div><div class="spacer"></div>
 <div class="cta-bar">
   <a href="/registro" class="cta-btn">🎯 Personalizar mi broma →</a>
 </div>
@@ -235,8 +236,37 @@ setInterval(() => {
   carousel.style.transform = `translateX(-${offset * cardWidth}px)`;
 }, 2500);
 
-// Modal
-function abrirModal() { document.getElementById('modal').classList.add('open') }
+// Sesión
+async function checkSession() {
+  const session = localStorage.getItem('sb_session');
+  return session ? JSON.parse(session) : null;
+}
+
+async function irGenerador(el) {
+  const card = el.closest('.carousel-card, .grid-card');
+  const img = card.querySelector('img');
+  const prompt = img ? img.dataset.prompt : '';
+  
+  const session = localStorage.getItem('supabase.auth.token') || 
+                  Object.keys(localStorage).find(k => k.includes('auth-token'));
+  
+  // Verificar sesión con Supabase
+  const { createClient } = window.supabase || {};
+  
+  const SUPABASE_URL = 'https://xnrhnmrghxtrrylnlnuv.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY';
+  
+  const sb = window._sb || (window._sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY));
+  const { data: { session: sess } } = await sb.auth.getSession();
+  
+  if (sess) {
+    window.location.href = '/generador?prompt=' + encodeURIComponent(prompt);
+  } else {
+    document.getElementById('modal').classList.add('open');
+    document.getElementById('modal').dataset.prompt = prompt;
+  }
+}
+
 function cerrarModal() { document.getElementById('modal').classList.remove('open') }
 document.getElementById('modal').addEventListener('click', function(e) {
   if (e.target === this) cerrarModal();
