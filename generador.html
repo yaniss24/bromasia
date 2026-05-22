@@ -238,23 +238,54 @@ function mostrarError(msg) {
 
 
 <div id="popup-creditos" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#13132a;border:1px solid #8A5CFF;border-radius:20px;padding:32px;max-width:420px;width:100%;text-align:center">
-    <div style="font-size:2rem;margin-bottom:12px">⚡</div>
-    <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:8px">Sin créditos</h2>
-    <p style="color:#aaa;font-size:14px;margin-bottom:24px">Elige un pack para seguir generando bromas</p>
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
-      <a href="https://bromasia.lemonsqueezy.com/checkout/buy/751f5520-8831-4625-a796-cba8b194b819" style="background:#1a1a3a;border:1px solid #2a2a4a;border-radius:12px;padding:14px;text-decoration:none;color:white;display:flex;justify-content:space-between;align-items:center">
-        <span>⚡ Starter · 20 bromas</span><span style="color:#8A5CFF;font-weight:700">4,99€</span>
-      </a>
-      <a href="https://bromasia.lemonsqueezy.com/checkout/buy/c12bd366-9a2e-47fb-b2d8-055f4c86868f" style="background:#8A5CFF22;border:2px solid #8A5CFF;border-radius:12px;padding:14px;text-decoration:none;color:white;display:flex;justify-content:space-between;align-items:center">
-        <span>⭐ Pro · 50 bromas</span><span style="color:#8A5CFF;font-weight:700">9,99€</span>
-      </a>
-      <a href="https://bromasia.lemonsqueezy.com/checkout/buy/bec378ce-60b2-48c0-85b1-95710834e4b1" style="background:#1a1a3a;border:1px solid #2a2a4a;border-radius:12px;padding:14px;text-decoration:none;color:white;display:flex;justify-content:space-between;align-items:center">
-        <span>👑 Max · 100 bromas</span><span style="color:#8A5CFF;font-weight:700">19,99€</span>
-      </a>
+  <div style="background:#13132a;border:1px solid #2a2a3a;border-radius:20px;padding:32px;max-width:440px;width:100%;text-align:center">
+    <h2 style="font-size:1.6rem;font-weight:900;margin-bottom:8px">Tu broma te espera.</h2>
+    <p style="color:#aaa;font-size:14px;margin-bottom:8px">A solo 1 clic de verla</p>
+    <div style="background:#ff6b0022;border:1px solid #ff6b00;border-radius:8px;padding:8px 16px;display:inline-block;margin-bottom:20px;font-size:13px;color:#ff9944;font-weight:700">
+      🔥 -54% EN EL PLAN MENSUAL · <span id="contador-popup">05:00</span>
     </div>
-    <button onclick="document.getElementById('popup-creditos').style.display='none'" style="background:none;border:none;color:#aaa;font-size:14px;cursor:pointer">Cerrar</button>
+    <div style="display:flex;gap:12px;margin-bottom:20px">
+      <div style="flex:1;background:#1a1a2e;border:1px solid #2a2a3a;border-radius:12px;padding:16px;cursor:pointer" onclick="window.location.href='https://bromasia.lemonsqueezy.com/checkout/buy/82e63059-f958-4a17-9030-e84f2d381aa6'">
+        <div style="font-size:11px;color:#aaa;text-transform:uppercase;margin-bottom:8px">Por semana</div>
+        <div style="font-size:1.8rem;font-weight:900">3,99€</div>
+        <div style="font-size:11px;color:#aaa">~16€/mes</div>
+      </div>
+      <div style="flex:1;background:#1a1a2e;border:2px solid #8A5CFF;border-radius:12px;padding:16px;cursor:pointer;position:relative" onclick="window.location.href='https://bromasia.lemonsqueezy.com/checkout/buy/82e63059-f958-4a17-9030-e84f2d381aa6'">
+        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#8A5CFF;color:white;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap">✓ SELECCIONADO</div>
+        <div style="font-size:11px;color:#aaa;text-transform:uppercase;margin-bottom:8px">Por mes</div>
+        <div style="font-size:11px;color:#aaa;text-decoration:line-through">12,99€</div>
+        <div style="font-size:1.8rem;font-weight:900;color:#8A5CFF">6,99€</div>
+        <div style="font-size:11px;color:#8A5CFF;font-weight:700">-54% hoy</div>
+      </div>
+    </div>
+    <ul style="list-style:none;text-align:left;margin-bottom:20px">
+      <li style="padding:6px 0;font-size:14px;color:#ccc">✅ 35 bromas ultra realistas al mes</li>
+      <li style="padding:6px 0;font-size:14px;color:#ccc">✅ Generación ultra rápida</li>
+      <li style="padding:6px 0;font-size:14px;color:#ccc">✅ Resultado hiper realista</li>
+      <li style="padding:6px 0;font-size:14px;color:#ccc">✅ Acceso a todas las categorías</li>
+      <li style="padding:6px 0;font-size:14px;color:#ccc">✅ Cancela cuando quieras</li>
+    </ul>
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;font-size:13px;color:#aaa">
+      <span>👥</span> <span id="usuarios-popup">243</span> usuarios activos hoy
+    </div>
+    <a href="https://bromasia.lemonsqueezy.com/checkout/buy/82e63059-f958-4a17-9030-e84f2d381aa6" style="display:block;background:linear-gradient(135deg,#8A5CFF,#b44dff);color:white;text-decoration:none;padding:16px;border-radius:12px;font-size:16px;font-weight:800;margin-bottom:12px">VER MI BROMA AHORA →</a>
+    <div style="font-size:12px;color:#555;margin-bottom:12px">🔒 Pago seguro · Cancela en 1 clic · Sin compromiso</div>
+    <button onclick="document.getElementById('popup-creditos').style.display='none'" style="background:none;border:none;color:#555;font-size:13px;cursor:pointer">Cerrar</button>
   </div>
 </div>
+<script>
+// Contador popup
+let tiempoPopup = 300;
+setInterval(() => {
+  if (tiempoPopup > 0) tiempoPopup--;
+  const m = Math.floor(tiempoPopup/60).toString().padStart(2,'0');
+  const s = (tiempoPopup%60).toString().padStart(2,'0');
+  const el = document.getElementById('contador-popup');
+  if (el) el.textContent = m+':'+s;
+}, 1000);
+// Usuarios aleatorios
+const u = document.getElementById('usuarios-popup');
+if (u) setInterval(() => { u.textContent = (230 + Math.floor(Math.random()*30)); }, 5000);
+</script>
 </body>
 </html>
