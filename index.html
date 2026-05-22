@@ -142,10 +142,12 @@ footer{text-align:center;padding:2rem 1.5rem;color:var(--muted);font-size:.82rem
 footer a{color:var(--muted);text-decoration:none;margin:0 .5rem}
 footer a:hover{color:var(--text)}
 @media(max-width:600px){
-  nav{padding:12px 16px}
-  #nav-login{font-size:12px;padding:6px 8px}
-  #nav-registro{font-size:12px;padding:6px 10px}
-  nav a[href="/"]{font-size:1.3rem}
+  nav{padding:12px 16px;flex-direction:column;gap:10px;text-align:center}
+  nav a[href="/"]{position:static;transform:none;font-size:1.5rem;order:-1}
+  nav > div:first-child{order:1;justify-content:center}
+  nav > div:last-child{display:none}
+  #nav-login{font-size:13px;padding:6px 12px}
+  #nav-registro{font-size:13px;padding:6px 14px}
 }
 </style>
 
