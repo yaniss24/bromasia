@@ -92,9 +92,10 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
     const imagen = Array.isArray(data.output) ? data.output[0] : data.output;
     if (!imagen) return res.status(500).json({ error: data.error || 'Sin output de Replicate' });
 
-    // Descontar crédito
+    // Descontar crédito y guardar broma
     if (userId) {
       await supabase.from('usuarios').update({ creditos: creditos - 10 }).eq('id', userId);
+      await supabase.from('bromas').insert({ user_id: userId, imagen_url: imagen, prompt: prompt });
     }
 
     res.json({ url: imagen, imagen });
