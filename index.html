@@ -142,9 +142,9 @@ footer{text-align:center;padding:2rem 1.5rem;color:var(--muted);font-size:.82rem
 footer a{color:var(--muted);text-decoration:none;margin:0 .5rem}
 footer a:hover{color:var(--text)}
 @media(max-width:600px){
-  nav{padding:12px 16px;flex-direction:column;gap:10px;text-align:center}
-  nav a[href="/"]{position:static;transform:none;font-size:1.5rem;order:-1}
-  nav > div:first-child{order:1;justify-content:center}
+  nav{padding:12px 16px;flex-direction:column;gap:8px;text-align:center}
+  #nav-logo{position:static!important;transform:none!important;font-size:1.5rem;order:-1}
+  nav > div:first-child{order:1;justify-content:center;width:100%}
   nav > div:last-child{display:none}
   #nav-login{font-size:13px;padding:6px 12px}
   #nav-registro{font-size:13px;padding:6px 14px}
@@ -182,7 +182,7 @@ footer a:hover{color:var(--text)}
     <a id="nav-login" href="/login" style="color:#ccc;text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;">Iniciar sesión</a>
     <a id="nav-registro" href="/registro" style="background:#8A5CFF;color:white;text-decoration:none;font-size:14px;font-weight:600;padding:8px 18px;border-radius:8px;">Registrarse</a>
   </div>
-  <a href="/" style="font-size:2rem;font-weight:800;text-decoration:none;color:white;position:absolute;left:50%;transform:translateX(-50%)">Bromas<span style="color:#8A5CFF">IA</span></a>
+  <a href="/" id="nav-logo" style="font-size:2rem;font-weight:800;text-decoration:none;color:white;position:absolute;left:50%;transform:translateX(-50%)">Bromas<span style="color:#8A5CFF">IA</span></a>
   <div class="nav-right"></div>
 </nav>
 
