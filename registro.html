@@ -65,9 +65,8 @@ async function registro() {
   if (data?.user) {
     await sb.from('usuarios').upsert({ id: data.user.id, email: email, creditos: 0 });
   }
-  document.getElementById('success').textContent = '¡Cuenta creada! Revisa tu email para confirmar.';
-  document.getElementById('success').style.display = 'block';
-  setTimeout(() => window.location.href = '/', 3000);
+  await sb.auth.signInWithPassword({ email, password });
+  window.location.href = '/';
 }
 
 async function loginGoogle() {
