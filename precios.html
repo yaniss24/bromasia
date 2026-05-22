@@ -134,6 +134,8 @@
 function togglePack(el) {
   el.classList.toggle('open');
 }
+// Abrir todos al cargar
+document.querySelectorAll('.pack').forEach(p => p.classList.add('open'));
 </script>
 
 </body>
