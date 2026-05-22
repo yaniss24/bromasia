@@ -230,7 +230,26 @@ footer a:hover{color:var(--text)}
 <div class="hero">
   <div class="hero-badge">✨ La IA de las bromas · España y Latam 🇪🇸</div>
   <h1>Bromas con IA tan <span class="highlight">realistas</span><br>que se lo creerán</h1>
-  <p>Sube una foto de tu coche, casa o lo que quieras. Describe la broma. La IA hace el resto en segundos.</p>
+  <p id="hero-tagline">Para que tu crush se lo crea</p>
+<script>
+const frases = [
+  "Para que tu crush se lo crea",
+  "Para trollear a tus amigos",
+  "Para que tus padres se asusten",
+  "Para que se lo crean todos"
+];
+let i = 0;
+const el = document.getElementById('hero-tagline');
+setInterval(() => {
+  el.style.opacity = 0;
+  setTimeout(() => {
+    i = (i + 1) % frases.length;
+    el.textContent = frases[i];
+    el.style.opacity = 1;
+  }, 400);
+}, 3000);
+el.style.transition = 'opacity 0.4s';
+</script>
   <div class="hero-btns">
     <a href="/categorias" class="btn-primary">🎭 Lanzar mi broma</a>
     <a href="#ejemplos" class="btn-outline">Ver ejemplos</a>
