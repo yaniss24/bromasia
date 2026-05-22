@@ -149,7 +149,10 @@ async function generar() {
   formData.append('prompt', prompt);
 
   try {
-    const res = await fetch('/api/generar', { method: 'POST', body: formData });
+    const { data: { session } } = await sb.auth.getSession();
+    const headers = {};
+    if (session?.access_token) headers['Authorization'] = 'Bearer ' + session.access_token;
+    const res = await fetch('/api/generar', { method: 'POST', body: formData, headers });
     const data = await res.json();
 
     if (data.error) {
