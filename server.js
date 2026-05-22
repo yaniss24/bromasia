@@ -30,6 +30,7 @@ app.get('/categorias', (req, res) => res.sendFile(__dirname + '/categorias.html'
 app.get('/perfil', (req, res) => res.sendFile(__dirname + '/perfil.html'));
 app.get('/generador', (req, res) => res.sendFile(__dirname + '/generador.html'));
 app.get('/precios', (req, res) => res.sendFile(__dirname + '/precios.html'));
+app.get('/gracias', (req, res) => res.sendFile(__dirname + '/gracias.html'));
 
 // API créditos
 app.get('/api/creditos', async (req, res) => {
