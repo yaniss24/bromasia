@@ -149,7 +149,10 @@ async function generar() {
   formData.append('prompt', prompt);
 
   try {
-    const { data: { session } } = await sb.auth.getSession();
+    const SURL2 = "https://xnrhnmrghxtrrylnlnuv.supabase.co";
+    const SKEY2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY";
+    const sbGen = supabase.createClient(SURL2, SKEY2);
+    const { data: { session } } = await sbGen.auth.getSession();
     const headers = {};
     if (session?.access_token) headers['Authorization'] = 'Bearer ' + session.access_token;
     const res = await fetch('/api/generar', { method: 'POST', body: formData, headers });
