@@ -242,16 +242,26 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   }
 })();
 
-// Carrusel automático
+// Carrusel autoplay continuo
 const carousel = document.getElementById('carousel');
-let offset = 0;
-const cardWidth = 296;
-const total = carousel.children.length;
-setInterval(() => {
-  offset++;
-  if (offset >= total) offset = 0;
-  carousel.style.transform = `translateX(-${offset * cardWidth}px)`;
-}, 2500);
+// Duplicar cards para loop infinito
+carousel.innerHTML += carousel.innerHTML;
+let pos = 0;
+const speed = 0.5;
+let paused = false;
+carousel.addEventListener('mouseenter', () => paused = true);
+carousel.addEventListener('mouseleave', () => paused = false);
+carousel.addEventListener('touchstart', () => paused = true);
+carousel.addEventListener('touchend', () => { setTimeout(() => paused = false, 2000); });
+function animate() {
+  if (!paused) {
+    pos += speed;
+    if (pos >= carousel.scrollWidth / 2) pos = 0;
+    carousel.style.transform = `translateX(-${pos}px)`;
+  }
+  requestAnimationFrame(animate);
+}
+animate();
 
 // Ir al generador o modal
 async function irGenerador(el) {
