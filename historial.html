@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis bromas · BromasIA</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0d1a; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid #1a1a2e; position: relative; }
+    .nav-logo { font-size: 2rem; font-weight: 800; text-decoration: none; color: white; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-logo span { color: #8A5CFF; }
+    .hero { text-align: center; padding: 48px 24px 32px; }
+    .hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: 8px; }
+    .hero p { color: #aaa; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; max-width: 1000px; margin: 0 auto; padding: 0 20px 60px; }
+    .card { background: #13132a; border: 1px solid #1a1a2e; border-radius: 16px; overflow: hidden; }
+    .card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+    .card-info { padding: 12px 16px; }
+    .card-prompt { font-size: 13px; color: #aaa; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-date { font-size: 11px; color: #555; }
+    .card-download { display: block; text-align: center; background: #8A5CFF22; color: #8A5CFF; text-decoration: none; padding: 8px; font-size: 13px; font-weight: 600; border-top: 1px solid #1a1a2e; }
+    .empty { text-align: center; padding: 80px 20px; color: #aaa; }
+    .empty a { display: inline-block; margin-top: 20px; background: #8A5CFF; color: white; text-decoration: none; padding: 12px 24px; border-radius: 10px; font-weight: 700; }
+    .loading { text-align: center; padding: 60px; color: #aaa; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div>
+    <a href="/" style="color:#ccc;text-decoration:none;font-size:14px;padding:8px 16px;">← Volver</a>
+  </div>
+  <a href="/" class="nav-logo">Bromas<span>IA</span></a>
+  <div></div>
+</nav>
+
+<div class="hero">
+  <h1>Mis bromas 🎭</h1>
+  <p>Todas las bromas que has generado</p>
+</div>
+
+<div id="loading" class="loading">Cargando...</div>
+<div id="empty" class="empty" style="display:none">
+  <p>Aún no has generado ninguna broma</p>
+  <a href="/generador">¡Generar mi primera broma!</a>
+</div>
+<div class="grid" id="grid"></div>
+
+<script>
+(async function() {
+  const SURL = "https://xnrhnmrghxtrrylnlnuv.supabase.co";
+  const SKEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY";
+  const sb = supabase.createClient(SURL, SKEY);
+  const { data: { session } } = await sb.auth.getSession();
+
+  if (!session) {
+    window.location.href = '/login';
+    return;
+  }
+
+  const { data: bromas } = await sb.from('bromas').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
+
+  document.getElementById('loading').style.display = 'none';
+
+  if (!bromas || bromas.length === 0) {
+    document.getElementById('empty').style.display = 'block';
+    return;
+  }
+
+  const grid = document.getElementById('grid');
+  bromas.forEach(b => {
+    const fecha = new Date(b.created_at).toLocaleDateString('es-ES');
+    grid.innerHTML += `
+      <div class="card">
+        <img src="${b.imagen_url}" alt="Broma" loading="lazy">
+        <div class="card-info">
+          <div class="card-prompt">${b.prompt || 'Sin descripción'}</div>
+          <div class="card-date">${fecha}</div>
+        </div>
+        <a href="${b.imagen_url}" download class="card-download">⬇ Descargar</a>
+      </div>`;
+  });
+})();
+</script>
+</body>
+</html>
