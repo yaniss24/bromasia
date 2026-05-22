@@ -527,37 +527,30 @@ async function generarBroma(){
   const btn = document.getElementById('hamburger-btn');
   const menu = document.getElementById('side-menu');
   const overlay = document.getElementById('side-overlay');
+
+  if (!session) {
+    document.getElementById('nav-login').style.display = 'inline';
+    document.getElementById('nav-registro').style.display = 'inline-block';
+    btn.style.display = 'none';
+    btn.addEventListener('click', () => { menu.classList.add('open'); overlay.classList.add('open'); });
+    document.getElementById('side-close').addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
+    overlay.addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
+    return;
+  }
+
+  document.getElementById('nav-login').style.display = 'none';
+  document.getElementById('nav-registro').style.display = 'none';
+  btn.style.display = 'flex';
   btn.addEventListener('click', () => { menu.classList.add('open'); overlay.classList.add('open'); });
   document.getElementById('side-close').addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
   overlay.addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
 
-  if (!session) {
-    // Sin login: mostrar iniciar/registrarse, ocultar hamburger
-    document.getElementById('nav-login').style.display = 'inline';
-    document.getElementById('nav-registro').style.display = 'inline-block';
-    btn.style.display = 'none';
-    return;
-  }
-
-  // Con login: ocultar iniciar/registrarse, mostrar hamburger
-  document.getElementById('nav-login').style.display = 'none';
-  document.getElementById('nav-registro').style.display = 'none';
-  btn.style.display = 'flex';
-
-  // Cargar datos
   document.getElementById('side-email').textContent = session.user.email;
   try {
     const res = await fetch('/api/creditos', { headers: { 'Authorization': 'Bearer ' + session.access_token } });
     const data = await res.json();
     document.getElementById('side-creditos').textContent = (data.creditos ?? 0) + ' créditos';
   } catch(e) {}
-
-  // Abrir/cerrar menú
-  const menu = document.getElementById('side-menu');
-  const overlay = document.getElementById('side-overlay');
-  btn.addEventListener('click', () => { menu.classList.add('open'); overlay.classList.add('open'); });
-  document.getElementById('side-close').addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
-  overlay.addEventListener('click', () => { menu.classList.remove('open'); overlay.classList.remove('open'); });
 
   // Logout
   document.getElementById('side-logout').addEventListener('click', async () => {
