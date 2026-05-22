@@ -33,6 +33,21 @@ app.get('/precios', (req, res) => res.sendFile(__dirname + '/precios.html'));
 app.get('/gracias', (req, res) => res.sendFile(__dirname + '/gracias.html'));
 app.get('/historial', (req, res) => res.sendFile(__dirname + '/historial.html'));
 
+app.get('/api/download', async (req, res) => {
+  try {
+    const url = req.query.url;
+    if (!url) return res.status(400).send('No URL');
+    const fetch = (...args) => import('node-fetch').then(({default: f}) => f(...args));
+    const response = await fetch(url);
+    const buffer = await response.buffer();
+    res.setHeader('Content-Type', 'image/jpeg');
+    res.setHeader('Content-Disposition', 'attachment; filename="bromasia.jpg"');
+    res.send(buffer);
+  } catch(err) {
+    res.status(500).send('Error');
+  }
+});
+
 // API créditos
 app.get('/api/creditos', async (req, res) => {
   try {

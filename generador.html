@@ -169,8 +169,8 @@ async function generar() {
     }
 
     document.getElementById('resultImg').src = data.url;
-    document.getElementById('btnDownload').href = data.url;
-    document.getElementById('btnDownload').onclick = () => { window.open(data.url, '_blank'); return false; };
+    document.getElementById('btnDownload').href = '/api/download?url=' + encodeURIComponent(data.url);
+    document.getElementById('btnDownload').download = 'bromasia.jpg';
     document.getElementById('resultado').style.display = 'block';
     cargarCreditos();
   } catch(e) {
