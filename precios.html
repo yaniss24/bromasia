@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Precios · BromasIA</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0d1a; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid #1a1a2e; position: relative; }
+    .nav-logo { font-size: 2rem; font-weight: 800; text-decoration: none; color: white; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-logo span { color: #8A5CFF; }
+    .hero { text-align: center; padding: 60px 24px 40px; }
+    .hero h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 12px; }
+    .hero h1 span { color: #8A5CFF; }
+    .hero p { color: #aaa; font-size: 1rem; font-style: italic; }
+    .packs { max-width: 600px; margin: 40px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
+    .pack { background: #13132a; border: 1px solid #2a2a3a; border-radius: 16px; padding: 20px 24px; cursor: pointer; transition: all 0.2s; position: relative; }
+    .pack:hover { border-color: #8A5CFF; }
+    .pack-header { display: flex; align-items: center; justify-content: space-between; }
+    .pack-left { display: flex; align-items: center; gap: 14px; }
+    .pack-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .icon-starter { background: #1a1a3a; }
+    .icon-pro { background: #1a1a3a; }
+    .icon-max { background: #1a1a3a; }
+    .pack-name { font-size: 1.1rem; font-weight: 700; }
+    .pack-desc { font-size: 13px; color: #aaa; margin-top: 2px; }
+    .pack-price { font-size: 1.3rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .pack-arrow { color: #aaa; font-size: 1rem; transition: transform 0.2s; }
+    .pack.open .pack-arrow { transform: rotate(180deg); }
+    .pack-body { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid #1a1a2e; }
+    .pack.open .pack-body { display: block; }
+    .pack-features { list-style: none; margin-bottom: 16px; }
+    .pack-features li { padding: 8px 0; font-size: 14px; color: #ccc; display: flex; align-items: center; gap: 8px; }
+    .check { color: #8A5CFF; }
+    .btn-pack { display: block; background: #8A5CFF; color: white; text-decoration: none; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700; text-align: center; transition: background 0.2s; }
+    .btn-pack:hover { background: #7a4de0; }
+    .badge-mejor { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #8A5CFF; color: white; font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; white-space: nowrap; }
+    .pack-pro { border-color: #8A5CFF44; }
+    .garantia { text-align: center; color: #555; font-size: 13px; margin: 20px 0 60px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div>
+    <a href="/" style="color:#ccc;text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;">← Volver</a>
+  </div>
+  <a href="/" class="nav-logo">Bromas<span>IA</span></a>
+  <div></div>
+</nav>
+
+<div class="hero">
+  <h1>Más créditos, <span>más bromas.</span></h1>
+  <p>Elige el pack que te conviene y recibe tus créditos al instante.</p>
+</div>
+
+<div class="packs">
+
+  <div class="pack" onclick="togglePack(this)">
+    <div class="pack-header">
+      <div class="pack-left">
+        <div class="pack-icon icon-starter">⚡</div>
+        <div>
+          <div class="pack-name">Starter</div>
+          <div class="pack-desc">200 créditos · 20 imágenes</div>
+        </div>
+      </div>
+      <div class="pack-price">4,99€ <span class="pack-arrow">▼</span></div>
+    </div>
+    <div class="pack-body">
+      <ul class="pack-features">
+        <li><span class="check">✓</span> 20 bromas ultra realistas</li>
+        <li><span class="check">✓</span> Sin caducidad</li>
+        <li><span class="check">✓</span> Todas las categorías</li>
+        <li><span class="check">✓</span> Resultados en segundos</li>
+      </ul>
+      <a href="https://bromasia.lemonsqueezy.com/checkout/buy/751f5520-8831-4625-a796-cba8b194b819" class="btn-pack">🎭 Comprar Starter</a>
+    </div>
+  </div>
+
+  <div class="pack pack-pro" onclick="togglePack(this)">
+    <div class="badge-mejor">⭐ MEJOR OFERTA</div>
+    <div class="pack-header">
+      <div class="pack-left">
+        <div class="pack-icon icon-pro">☆</div>
+        <div>
+          <div class="pack-name">Pro</div>
+          <div class="pack-desc">500 créditos · 50 imágenes</div>
+        </div>
+      </div>
+      <div class="pack-price">9,99€ <span class="pack-arrow">▼</span></div>
+    </div>
+    <div class="pack-body">
+      <ul class="pack-features">
+        <li><span class="check">✓</span> 50 bromas ultra realistas</li>
+        <li><span class="check">✓</span> Sin caducidad</li>
+        <li><span class="check">✓</span> Todas las categorías</li>
+        <li><span class="check">✓</span> Resultados en segundos</li>
+        <li><span class="check">✓</span> El más popular</li>
+      </ul>
+      <a href="https://bromasia.lemonsqueezy.com/checkout/buy/c12bd366-9a2e-47fb-b2d8-055f4c86868f" class="btn-pack">🎭 Comprar Pro</a>
+    </div>
+  </div>
+
+  <div class="pack" onclick="togglePack(this)">
+    <div class="pack-header">
+      <div class="pack-left">
+        <div class="pack-icon icon-max">👑</div>
+        <div>
+          <div class="pack-name">Max</div>
+          <div class="pack-desc">1000 créditos · 100 imágenes</div>
+        </div>
+      </div>
+      <div class="pack-price">19,99€ <span class="pack-arrow">▼</span></div>
+    </div>
+    <div class="pack-body">
+      <ul class="pack-features">
+        <li><span class="check">✓</span> 100 bromas ultra realistas</li>
+        <li><span class="check">✓</span> Sin caducidad</li>
+        <li><span class="check">✓</span> Todas las categorías</li>
+        <li><span class="check">✓</span> Resultados en segundos</li>
+        <li><span class="check">✓</span> Para los más bromistas</li>
+      </ul>
+      <a href="https://bromasia.lemonsqueezy.com/checkout/buy/bec378ce-60b2-48c0-85b1-95710834e4b1" class="btn-pack">🎭 Comprar Max</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="garantia">🔒 Pago seguro · Sin suscripción · Créditos sin caducidad</div>
+
+<script>
+function togglePack(el) {
+  el.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
