@@ -58,7 +58,7 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
         userId = user.id;
         const { data } = await supabase.from('usuarios').select('creditos').eq('id', userId).single();
         creditos = data?.creditos ?? 0;
-        if (creditos <= 0) {
+        if (creditos < 10) {
           if (req.file) fs.unlinkSync(req.file.path);
           return res.status(403).json({ error: 'Sin créditos. Recarga para continuar.' });
         }
@@ -93,7 +93,7 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
 
     // Descontar crédito
     if (userId) {
-      await supabase.from('usuarios').update({ creditos: creditos - 1 }).eq('id', userId);
+      await supabase.from('usuarios').update({ creditos: creditos - 10 }).eq('id', userId);
     }
 
     res.json({ url: imagen, imagen });
