@@ -18,7 +18,7 @@ app.use(express.json());
 const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
 const LEMON_API_KEY = process.env.LEMON_API_KEY;
 const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_KEY);
 
 // Rutas páginas
 app.get('/privacidad', (req, res) => res.sendFile(__dirname + '/privacidad.html'));
