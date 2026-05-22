@@ -79,7 +79,7 @@
           <div class="card-prompt">${b.prompt || 'Sin descripción'}</div>
           <div class="card-date">${fecha}</div>
         </div>
-        <a href="/api/download?url=" + encodeURIComponent(b.imagen_url) + "" class="card-download">⬇ Descargar</a>
+        <a href="/api/download?url=${encodeURIComponent(b.imagen_url)}" download="bromasia.jpg" class="card-download">⬇ Descargar</a>
       </div>`;
   });
 })();
