@@ -60,8 +60,11 @@ async function registro() {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   if (password.length < 6) { showError('La contraseña debe tener al menos 6 caracteres'); return; }
-  const { error } = await sb.auth.signUp({ email, password });
+  const { data, error } = await sb.auth.signUp({ email, password });
   if (error) { showError(error.message); return; }
+  if (data?.user) {
+    await sb.from('usuarios').upsert({ id: data.user.id, email: email, creditos: 0 });
+  }
   document.getElementById('success').textContent = '¡Cuenta creada! Revisa tu email para confirmar.';
   document.getElementById('success').style.display = 'block';
   setTimeout(() => window.location.href = '/', 3000);
