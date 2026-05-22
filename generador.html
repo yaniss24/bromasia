@@ -94,7 +94,7 @@ h1 span{color:#8A5CFF}
 
   <div class="resultado" id="resultado">
     <img id="resultImg">
-    <a class="btn-download" id="btnDownload" download="bromasia.png">⬇️ Descargar imagen</a>
+    <a class="btn-download" id="btnDownload" target="_blank">⬇️ Ver y descargar imagen</a>
   </div>
 </div>
 
@@ -170,6 +170,7 @@ async function generar() {
 
     document.getElementById('resultImg').src = data.url;
     document.getElementById('btnDownload').href = data.url;
+    document.getElementById('btnDownload').onclick = () => { window.open(data.url, '_blank'); return false; };
     document.getElementById('resultado').style.display = 'block';
     cargarCreditos();
   } catch(e) {
