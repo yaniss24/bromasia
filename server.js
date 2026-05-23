@@ -110,9 +110,34 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
 
     if (!req.file) return res.status(400).json({ error: 'No se recibió foto' });
 
-    const promptOriginal = (req.body.prompt || req.body.broma || '').toLowerCase().trim();
-    
-    // Sistema de prompts mejorados
+    const promptOriginal = (req.body.prompt || req.body.broma || '').trim();
+
+    // Mejorar prompt con Claude
+    let prompt = promptOriginal;
+    try {
+      const fetch2 = (...args) => import('node-fetch').then(({default: f}) => f(...args));
+      const claudeRes = await fetch2('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': process.env.ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01',
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 200,
+          messages: [{
+            role: 'user',
+            content: 'You are an expert at writing prompts for AI image editing models. Convert this user request into a detailed technical prompt in English for realistic photo editing. Keep it under 100 words. Only respond with the prompt, nothing else. User request: ' + promptOriginal
+          }]
+        })
+      });
+      const claudeData = await claudeRes.json();
+      if (claudeData.content?.[0]?.text) prompt = claudeData.content[0].text.trim();
+    } catch(e) { console.log('Claude prompt error:', e.message); }
+
+    // Sistema de prompts mejorados (fallback)
+    const promptOriginalLow = promptOriginal.toLowerCase();
     const promptsDB = {
       // Coche
       'destruye': 'Make this car look completely destroyed and wrecked in a catastrophic accident: hood completely crushed and mangled, windshield completely shattered, all doors severely dented, front bumper ripped off, broken headlights, deployed airbags visible inside, debris and broken glass on the ground around the car, photorealistic crash damage',
@@ -147,7 +172,7 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
     let prompt = 'Transform this photo in a surprising and realistic way';
     let matched = false;
     for (const [key, val] of Object.entries(promptsDB)) {
-      if (promptOriginal.includes(key)) {
+      if (promptOriginalLow.includes(key)) {
         prompt = val;
         matched = true;
         break;
