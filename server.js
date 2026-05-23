@@ -136,58 +136,6 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
       if (claudeData.content?.[0]?.text) promptMejorado = claudeData.content[0].text.trim();
     } catch(e) { console.log('Claude prompt error:', e.message); }
     const prompt = promptMejorado;
-
-    // Sistema de prompts mejorados (fallback)
-    const promptOriginalLow = promptOriginal.toLowerCase();
-    const promptsDB = {
-      // Coche
-      'destruye': 'Make this car look completely destroyed and wrecked in a catastrophic accident: hood completely crushed and mangled, windshield completely shattered, all doors severely dented, front bumper ripped off, broken headlights, deployed airbags visible inside, debris and broken glass on the ground around the car, photorealistic crash damage',
-      'coche destrozado': 'Severe car accident damage: crushed hood, shattered windshield, deployed airbags, dented doors, broken headlights, scattered debris on ground, realistic crash damage, photorealistic',
-      'accidente': 'Make this car look like it just had a severe accident, crashed into a wall, hood completely smashed, windshield shattered, airbags deployed, photorealistic',
-      'choca': 'Make this car look like it just crashed into a wall or barrier, front completely destroyed, hood crushed, windshield broken, photorealistic damage',
-      'raya': 'Add deep scratches and dents all along the side of this car, like someone keyed it maliciously, realistic paint damage, photorealistic',
-      'rayado': 'Add deep scratches and dents all along the side of this car, like someone keyed it maliciously, realistic paint damage, photorealistic',
-      'quema': 'Make this car look like it caught fire and burned, charred exterior, melted parts, smoke damage, blackened roof, realistic fire damage, photorealistic',
-      'incendio': 'Make this car look like it caught fire and burned, charred exterior, melted parts, smoke damage, blackened roof, realistic fire damage, photorealistic',
-      // Casa / interior
-      'inunda': 'Flood this room with 30cm of dirty water covering the floor, furniture floating or damaged, watermarks on walls, realistic flood damage, photorealistic',
-      'inundacion': 'Flood this room with 30cm of dirty water covering the floor, furniture floating or damaged, watermarks on walls, realistic flood damage, photorealistic',
-      'salon destrozado': 'Make this living room look completely destroyed and ransacked, furniture overturned, broken objects everywhere, chaotic mess, photorealistic',
-      'destroza': 'Make everything in this image look completely destroyed and wrecked, broken objects, chaotic destruction, photorealistic',
-      'robo': 'Make this room look like it was robbed and ransacked, drawers open, items thrown everywhere, chaos and disorder, photorealistic',
-      // Reloj
-      'rolex': 'Replace the watch on the wrist with a luxurious Rolex Daytona stainless steel with black dial, photorealistic, same wrist position, natural lighting, ultra detailed',
-      'reloj': 'Replace the watch on the wrist with a luxurious Rolex Daytona stainless steel with black dial, photorealistic, same wrist position, natural lighting, ultra detailed',
-      // Personas
-      'engorda': 'Make this person look like they gained 40kg of weight, much larger body, fuller face, heavier appearance, realistic, photorealistic',
-      'adelgaza': 'Make this person look very thin and slim, lost a lot of weight, skinny appearance, realistic, photorealistic',
-      'envejece': 'Make this person look 30 years older, wrinkles, grey hair, aged skin, realistic aging, photorealistic',
-      'calvo': 'Make this person completely bald, no hair at all, shiny head, realistic, photorealistic',
-      'enano': 'Make this person look extremely short, like a dwarf, same face but very small body, photorealistic',
-      'gigante': 'Make this person look extremely tall and giant, towering over everything around them, same face, photorealistic',
-      // Objetos
-      'tv rota': 'Make this TV screen look completely shattered and broken, cracked screen with spider web pattern, realistic damage, photorealistic',
-      'pantalla rota': 'Make this screen look completely shattered and broken, cracked screen with spider web pattern, realistic damage, photorealistic',
-    };
-
-    let prompt = 'Transform this photo in a surprising and realistic way';
-    let matched = false;
-    for (const [key, val] of Object.entries(promptsDB)) {
-      if (promptOriginalLow.includes(key)) {
-        prompt = val;
-        matched = true;
-        break;
-      }
-    }
-    if (!matched) {
-      // Traducir al inglés si no hay match
-      try {
-        const fetch2 = (...args) => import('node-fetch').then(({default: f}) => f(...args));
-        const tradRes = await fetch2('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(promptOriginal) + '&langpair=es|en');
-        const tradData = await tradRes.json();
-        if (tradData.responseStatus === 200) prompt = tradData.responseData.translatedText;
-      } catch(e) { prompt = promptOriginal; }
-    }
     const imageData = fs.readFileSync(req.file.path);
     const base64 = imageData.toString('base64');
     const mime = req.file.mimetype || 'image/jpeg';
