@@ -152,12 +152,12 @@ footer{text-align:center;padding:2rem 1.5rem;color:var(--muted);font-size:.82rem
 footer a{color:var(--muted);text-decoration:none;margin:0 .5rem}
 footer a:hover{color:var(--text)}
 @media(max-width:600px){
-  nav{padding:12px 16px;flex-direction:column;gap:8px;text-align:center}
-  #nav-logo{position:static!important;transform:none!important;font-size:1.5rem;order:-1}
-  nav > div:first-child{order:1;justify-content:center;width:100%}
+  nav{padding:10px 16px;flex-direction:row;gap:0}
+  #nav-logo{font-size:1.2rem;position:static!important;transform:none!important}
+  nav > div:first-child{gap:8px}
   nav > div:last-child{display:none}
-  #nav-login{font-size:13px;padding:6px 12px}
-  #nav-registro{font-size:13px;padding:6px 14px}
+  #nav-login{font-size:12px;padding:6px 10px}
+  #nav-registro{font-size:12px;padding:6px 12px;border-radius:8px}
 }
 </style>
 
@@ -252,7 +252,6 @@ el.style.transition = 'opacity 0.4s';
 </script>
   <div class="hero-btns">
     <a href="/categorias" class="btn-primary">🎭 Lanzar mi broma</a>
-    <a href="#ejemplos" class="btn-outline">Ver ejemplos</a>
   </div>
 </div>
 
@@ -261,43 +260,6 @@ el.style.transition = 'opacity 0.4s';
   <div class="stat"><div class="stat-num">+<span>12.000</span></div><div class="stat-label">Bromas generadas</div></div>
   <div class="stat"><div class="stat-num"><span>98</span>%</div><div class="stat-label">Se lo creyeron</div></div>
   <div class="stat"><div class="stat-num"><span>4.9</span>★</div><div class="stat-label">Valoración media</div></div>
-  <div class="stat"><div class="stat-num">+<span>500</span></div><div class="stat-label">Usuarios activos</div></div>
-</div>
-
-<!-- GENERATOR -->
-<div class="generator" id="generar">
-  <div class="gen-title">Crea tu broma ahora</div>
-  <div class="gen-sub">Sube una foto, describe lo que quieres y la IA lo convierte en realidad</div>
-
-  <div class="gen-box">
-    <div class="gen-step">① Sube tu foto</div>
-    <label class="upload-zone" id="uploadZone">
-      <div id="uploadContent">
-        <div class="upload-icon">📷</div>
-        <div class="upload-text">Haz clic para subir tu foto · JPG, PNG hasta 10MB</div>
-      </div>
-      <input type="file" accept="image/*" id="fileInput" style="display:none">
-    </label>
-  </div>
-
-  <div class="gen-box">
-    <div class="gen-step">② Describe la broma</div>
-    <textarea id="bromaText" placeholder="Ej: Revienta el coche de mi padre, hazlo parecer que tuvo un accidente brutal en el parking del Mercadona. Que el capó esté hundido y el parabrisas roto..."></textarea>
-    <div class="quick-btns">
-      <button class="quick-btn" onclick="setTexto('Revienta el coche con un accidente brutal, capó hundido y parabrisas roto')">🚗 Coche destrozado</button>
-      <button class="quick-btn" onclick="setTexto('Inunda la cocina con 30cm de agua, objetos flotando')">🚿 Inundación</button>
-      <button class="quick-btn" onclick="setTexto('Mete a un hombre desconocido sentado en el sofá del salón como si fuera su casa')">🏠 Intruso en casa</button>
-      <button class="quick-btn" onclick="setTexto('Prende fuego al microondas de la cocina, paredes ennegrecidas')">🔥 Incendio</button>
-    </div>
-  </div>
-
-  <button class="btn-generate" id="btnGenerar" onclick="generarBroma()" disabled>🎭 ¡Generar broma!</button>
-  <div id="errorMsg" class="error-msg" style="display:none"></div>
-  <div id="resultBox" class="result-box" style="display:none">
-    <div class="result-title">🎉 ¡Broma lista! Envíasela antes de que sospeche 😈</div>
-    <img id="resultImg" class="result-img" alt="broma">
-    <a id="downloadBtn" class="btn-download" target="_blank" rel="noreferrer">⬇️ Descargar foto</a>
-  </div>
 </div>
 
 <!-- EXAMPLES -->
@@ -408,9 +370,9 @@ el.style.transition = 'opacity 0.4s';
   <div class="section-tag">Testimonios</div>
   <div class="section-title">Lo que dicen los bromistas</div>
   <div class="testimonials-grid">
-    <div class="testimonial"><div class="stars">★★★★★</div><div class="testimonial-text">"Mi madre llamó llorando creyendo que me habían destrozado el coche. Tuve que confesarle que era una broma 😭 Demasiado realista."</div><div class="testimonial-author"><div class="avatar" style="background:rgba(138,92,255,0.2);color:#C4B5FD">PA</div><div><div class="author-name">Pablo A.</div><div class="author-handle">@pablo_broma · Madrid</div></div></div></div>
-    <div class="testimonial"><div class="stars">★★★★★</div><div class="testimonial-text">"El intruso en la terraza de mis padres… mi padre agarró el palo de fregar 😂 Subí la reacción a TikTok y tiene 80k vistas."</div><div class="testimonial-author"><div class="avatar" style="background:rgba(236,72,153,0.2);color:#F9A8D4">SR</div><div><div class="author-name">Sara R.</div><div class="author-handle">@sara.rie · Barcelona</div></div></div></div>
-    <div class="testimonial"><div class="stars">★★★★★</div><div class="testimonial-text">"La inundación con la bolsa de Mercadona flotando… mi madre llamó al seguro antes de que le dijera la verdad jajaja."</div><div class="testimonial-author"><div class="avatar" style="background:rgba(16,185,129,0.2);color:#6EE7B7">MG</div><div><div class="author-name">Miguel G.</div><div class="author-handle">@migue.gaston · Valencia</div></div></div></div>
+    <div class="testimonial"><div class="stars">★★★★★</div><div class="testimonial-text">"Mi madre llamó llorando creyendo que me habían destrozado el coche. Tuve que confesarle que era una broma 😭 Demasiado realista."</div><div class="testimonial-author"><div><div class="author-name">Pablo A.</div><div class="author-handle">@pablo_broma · Madrid</div></div></div></div>
+    <div class="testimonial"><div class="stars">★★★★★</div><div class="testimonial-text">"El intruso en la terraza de mis padres… mi padre agarró el palo de fregar 😂 Subí la reacción a TikTok y tiene 80k vistas."</div><div class="testimonial-author"><div><div class="author-name">Sara R.</div><div class="author-handle">@sara.rie · Barcelona</div></div></div></div>
+    <div class="testimonial"><div class="stars">★★★★★</div><div class="testimonial-text">"La inundación con la bolsa de Mercadona flotando… mi madre llamó al seguro antes de que le dijera la verdad jajaja."</div><div class="testimonial-author"><div><div class="author-name">Miguel G.</div><div class="author-handle">@migue.gaston · Valencia</div></div></div></div>
   </div>
 </div>
 </div>
