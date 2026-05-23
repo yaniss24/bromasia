@@ -115,7 +115,7 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
     // Sistema de prompts mejorados
     const promptsDB = {
       // Coche
-      'destruye': 'Severe car accident damage: crushed hood, shattered windshield, deployed airbags, dented doors, broken headlights, scattered debris on ground, realistic crash damage, photorealistic',
+      'destruye': 'Make this car look completely destroyed and wrecked in a catastrophic accident: hood completely crushed and mangled, windshield completely shattered, all doors severely dented, front bumper ripped off, broken headlights, deployed airbags visible inside, debris and broken glass on the ground around the car, photorealistic crash damage',
       'coche destrozado': 'Severe car accident damage: crushed hood, shattered windshield, deployed airbags, dented doors, broken headlights, scattered debris on ground, realistic crash damage, photorealistic',
       'accidente': 'Make this car look like it just had a severe accident, crashed into a wall, hood completely smashed, windshield shattered, airbags deployed, photorealistic',
       'choca': 'Make this car look like it just crashed into a wall or barrier, front completely destroyed, hood crushed, windshield broken, photorealistic damage',
