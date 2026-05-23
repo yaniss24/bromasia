@@ -28,13 +28,18 @@ h1 span{color:#8A5CFF}
 .resultado{display:none;margin-top:24px}
 .resultado img{width:100%;border-radius:16px;margin-bottom:16px}
 .btn-download{width:100%;background:#1a1a2e;border:1px solid #8A5CFF;color:#8A5CFF;padding:14px;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;display:block;text-align:center}
-.loading{display:none;text-align:center;padding:40px}
+.loading{display:none;position:fixed;inset:0;z-index:9999;background:#0a0a14;align-items:center;justify-content:center;flex-direction:column}
+.loading.active{display:flex}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 40px #8A5CFF55,0 0 80px #b44fff33;opacity:0.85}50%{box-shadow:0 0 80px #8A5CFFaa,0 0 160px #b44fff66;opacity:1}}
+@keyframes logoPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(0.97)}}
 @keyframes pulse{0%,100%{transform:scale(0.6);opacity:0.4}50%{transform:scale(1);opacity:1}}
-.dot-pulse{width:12px;height:12px;background:#8A5CFF;border-radius:50%;animation:pulse 1s ease-in-out infinite}
-@keyframes logoPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.95)}}
-#logo-loader{animation:logoPulse 1.5s ease-in-out infinite}
-.spinner{width:50px;height:50px;border:3px solid #2a2a3a;border-top:3px solid #8A5CFF;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+#logo-loader{animation:logoPulse 2s ease-in-out infinite}
+.dot-pulse{width:10px;height:10px;background:#8A5CFF;border-radius:50%;animation:pulse 1s ease-in-out infinite}
+.loading-card{width:320px;height:380px;border-radius:24px;background:#13131f;border:1px solid #2a2a3a;overflow:hidden;position:relative;animation:glowPulse 2s ease-in-out infinite;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0}
+.loading-img-placeholder{position:absolute;inset:0;background:linear-gradient(135deg,#1a1a2e 0%,#0d0d1a 50%,#1a1a2e 100%);background-size:200% 100%;animation:shimmer 2s infinite linear}
+.loading-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at center,#8A5CFF22 0%,#0a0a1400 70%)}
+.loading-logo-wrap{position:relative;z-index:2;text-align:center}
 .error{background:#ff444422;border:1px solid #ff4444;border-radius:12px;padding:16px;color:#ff4444;display:none;margin-bottom:16px}
 .creditos{background:#12121f;border:1px solid #2a2a3a;border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
 .creditos-label{color:#888;font-size:14px}
@@ -92,17 +97,21 @@ h1 span{color:#8A5CFF}
   <button class="btn-generate" id="btnGenerar" onclick="generar()">🎯 Generar mi broma</button>
 
   <div class="loading" id="loading">
-    <div style="text-align:center;padding:40px 20px">
-      <div id="logo-loader" style="font-size:2.5rem;font-weight:900;margin-bottom:24px">
-        Bromas<span style="color:#8A5CFF">IA</span>
+    <div class="loading-card">
+      <div class="loading-img-placeholder"></div>
+      <div class="loading-overlay"></div>
+      <div class="loading-logo-wrap">
+        <div id="logo-loader" style="font-size:2.8rem;font-weight:900;letter-spacing:-1px;color:white;text-shadow:0 0 30px #8A5CFFaa">
+          Bromas<span style="color:#8A5CFF">IA</span>
+        </div>
       </div>
-      <div style="display:flex;justify-content:center;gap:6px;margin-bottom:20px">
-        <div class="dot-pulse"></div>
-        <div class="dot-pulse" style="animation-delay:0.2s"></div>
-        <div class="dot-pulse" style="animation-delay:0.4s"></div>
-      </div>
-      <div id="loading-text" style="color:#888;font-size:14px">Generando tu broma...</div>
     </div>
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:28px">
+      <div class="dot-pulse"></div>
+      <div class="dot-pulse" style="animation-delay:0.2s"></div>
+      <div class="dot-pulse" style="animation-delay:0.4s"></div>
+    </div>
+    <div id="loading-text" style="color:#666;font-size:14px;margin-top:16px;letter-spacing:0.5px">Generando tu broma...</div>
   </div>
 
   <div class="resultado" id="resultado">
@@ -154,7 +163,7 @@ async function generar() {
   if (!file) { mostrarError('Sube una foto primero'); return; }
 
   document.getElementById('btnGenerar').disabled = true;
-  document.getElementById('loading').style.display = 'block';
+  document.getElementById('loading').classList.add('active');
   document.getElementById('resultado').style.display = 'none';
   document.getElementById('errorBox').style.display = 'none';
 
@@ -189,7 +198,7 @@ async function generar() {
   } catch(e) {
     mostrarError('Error de conexión. Inténtalo de nuevo.');
   } finally {
-    document.getElementById('loading').style.display = 'none';
+    document.getElementById('loading').classList.remove('active');
     document.getElementById('btnGenerar').disabled = false;
   }
 }
@@ -202,7 +211,7 @@ function mostrarError(msg) {
   const el = document.getElementById('errorBox');
   el.textContent = msg;
   el.style.display = 'block';
-  document.getElementById('loading').style.display = 'none';
+  document.getElementById('loading').classList.remove('active');
   document.getElementById('btnGenerar').disabled = false;
 }
 </script>
