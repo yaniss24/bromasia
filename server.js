@@ -128,7 +128,7 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
           max_tokens: 200,
           messages: [{
             role: 'user',
-            content: 'You are an expert at writing prompts for AI image editing models. Convert this user request into a detailed technical prompt in English for realistic photo editing. Keep it under 100 words. Only respond with the prompt, nothing else. User request: ' + promptOriginal
+            content: 'You are an expert at writing prompts for AI image editing (flux-kontext-pro model). Convert this Spanish user request into a detailed technical English prompt. IMPORTANT: Never remove or delete objects from the image. Always MODIFY or ADD to existing objects. Keep the same scene, same objects, just transform them realistically. Under 80 words. Only respond with the prompt, nothing else. User request: ' + promptOriginal
           }]
         })
       });
