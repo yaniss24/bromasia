@@ -113,7 +113,7 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
     const promptOriginal = (req.body.prompt || req.body.broma || '').trim();
 
     // Mejorar prompt con Claude
-    let prompt = promptOriginal;
+    let promptMejorado = promptOriginal;
     try {
       const fetch2 = (...args) => import('node-fetch').then(({default: f}) => f(...args));
       const claudeRes = await fetch2('https://api.anthropic.com/v1/messages', {
@@ -133,8 +133,9 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
         })
       });
       const claudeData = await claudeRes.json();
-      if (claudeData.content?.[0]?.text) prompt = claudeData.content[0].text.trim();
+      if (claudeData.content?.[0]?.text) promptMejorado = claudeData.content[0].text.trim();
     } catch(e) { console.log('Claude prompt error:', e.message); }
+    const prompt = promptMejorado;
 
     // Sistema de prompts mejorados (fallback)
     const promptOriginalLow = promptOriginal.toLowerCase();
