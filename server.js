@@ -1,6 +1,27 @@
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+async function enviarBienvenida(email) {
+  try {
+    await resend.emails.send({
+      from: 'BromasIA <hola@bromasia.com>',
+      to: email,
+      subject: '¡Bienvenido a BromasIA! 🎭',
+      html: `
+        <div style="background:#0D0D14;color:white;font-family:Inter,sans-serif;padding:40px;max-width:600px;margin:0 auto;border-radius:16px;">
+          <h1 style="font-size:2rem;font-weight:900;margin-bottom:8px;">Bromas<span style="color:#8A5CFF">IA</span></h1>
+          <h2 style="font-size:1.4rem;margin-bottom:16px;">¡Ya eres parte del caos! 😈</h2>
+          <p style="color:#9B9BB4;line-height:1.7;margin-bottom:24px;">Bienvenido a BromasIA, la IA de las bromas más realistas de España. Ya tienes tus créditos listos para empezar.</p>
+          <a href="https://bromasia.com/categorias" style="background:#8A5CFF;color:white;padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:700;font-size:1rem;display:inline-block;margin-bottom:24px;">🎭 Lanzar mi primera broma</a>
+          <p style="color:#666;font-size:12px;margin-top:32px;">© 2026 BromasIA · <a href="https://bromasia.com/privacidad" style="color:#666;">Privacidad</a></p>
+        </div>
+      `
+    });
+  } catch(e) { console.log('Email error:', e.message); }
+}
 const app = express();
 const upload = multer({ dest: '/tmp/' });
 
@@ -59,6 +80,7 @@ app.get('/api/creditos', async (req, res) => {
     if (!data) {
       await supabase.from('usuarios').insert({ id: user.id, email: user.email, creditos: 0 });
       data = { creditos: 0 };
+      enviarBienvenida(user.email);
     }
     res.json({ creditos: data?.creditos ?? 0 });
   } catch(err) {
