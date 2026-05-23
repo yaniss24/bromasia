@@ -89,7 +89,7 @@ h1 span{color:#8A5CFF}
 
   <div class="prompt-box">
     <div class="prompt-label">✨ EFECTO IA</div>
-    <div class="prompt-text" id="promptText">Cargando...</div>
+    <textarea id="promptText" style="width:100%;background:#0D0D14;border:1px solid rgba(138,92,255,0.25);border-radius:12px;padding:12px;color:#fff;font-size:14px;line-height:1.5;resize:vertical;outline:none;font-family:Inter,sans-serif;min-height:80px;box-sizing:border-box;">Cargando...</textarea>
   </div>
 
   <div class="error" id="errorBox"></div>
@@ -127,7 +127,7 @@ const params = new URLSearchParams(window.location.search);
 const prompt = params.get('prompt') || 'Transforma esta foto de forma realista y sorprendente';
 const categoria = params.get('cat') || 'broma';
 
-document.getElementById('promptText').textContent = prompt;
+document.getElementById('promptText').value = prompt;
 
 // Preview imagen
 document.getElementById('fileInput').addEventListener('change', function(e) {
