@@ -110,7 +110,14 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
 
     if (!req.file) return res.status(400).json({ error: 'No se recibió foto' });
 
-    const prompt = req.body.prompt || req.body.broma || 'Transforma esta foto de forma sorprendente y realista';
+    const promptOriginal = req.body.prompt || req.body.broma || 'Transform this photo in a surprising and realistic way';
+    let prompt = promptOriginal;
+    try {
+      const fetch2 = (...args) => import('node-fetch').then(({default: f}) => f(...args));
+      const tradRes = await fetch2('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(promptOriginal) + '&langpair=es|en');
+      const tradData = await tradRes.json();
+      if (tradData.responseStatus === 200) prompt = tradData.responseData.translatedText;
+    } catch(e) { console.log('Traduccion error:', e.message); }
     const imageData = fs.readFileSync(req.file.path);
     const base64 = imageData.toString('base64');
     const mime = req.file.mimetype || 'image/jpeg';
