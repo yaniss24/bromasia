@@ -55,7 +55,11 @@ app.get('/api/creditos', async (req, res) => {
     if (!token) return res.json({ creditos: null });
     const { data: { user } } = await supabase.auth.getUser(token);
     if (!user) return res.json({ creditos: null });
-    const { data } = await supabase.from('usuarios').select('creditos').eq('id', user.id).single();
+    let { data } = await supabase.from('usuarios').select('creditos').eq('id', user.id).single();
+    if (!data) {
+      await supabase.from('usuarios').insert({ id: user.id, email: user.email, creditos: 0 });
+      data = { creditos: 0 };
+    }
     res.json({ creditos: data?.creditos ?? 0 });
   } catch(err) {
     res.json({ creditos: 0 });
