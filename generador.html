@@ -146,7 +146,10 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
 // Cargar créditos
 async function cargarCreditos() {
   try {
-    const res = await fetch('/api/creditos');
+    const sbCred = supabase.createClient("https://xnrhnmrghxtrrylnlnuv.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY");
+    const { data: { session } } = await sbCred.auth.getSession();
+    if (!session) { window.location.href = '/login'; return; }
+    const res = await fetch('/api/creditos', { headers: { 'Authorization': 'Bearer ' + session.access_token } });
     const data = await res.json();
     if (data.creditos !== undefined) {
       document.getElementById('creditos-num').textContent = data.creditos + ' créditos';
@@ -154,7 +157,7 @@ async function cargarCreditos() {
       window.location.href = '/login';
     }
   } catch(e) {
-    document.getElementById('creditos-num').textContent = '–';
+    document.getElementById('creditos-num').textContent = '-';
   }
 }
 cargarCreditos();
