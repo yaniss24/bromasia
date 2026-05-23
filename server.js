@@ -201,7 +201,7 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
         'Prefer': 'wait'
       },
       body: JSON.stringify({
-        input: { prompt, input_image: dataUri, output_format: 'jpg', safety_tolerance: 5 }
+        input: { prompt, input_image: dataUri, output_format: 'jpg', safety_tolerance: 6 }
       })
     });
 
