@@ -149,7 +149,7 @@ app.post('/api/generar', upload.fields([{name:'imagen',maxCount:1},{name:'refere
       const refData = fs.readFileSync(req.files['referencia'][0].path);
       const refMime = req.files['referencia'][0].mimetype || 'image/jpeg';
       const refDataUri = 'data:' + refMime + ';base64,' + refData.toString('base64');
-      response = await fetch('https://api.replicate.com/v1/predictions', {
+      response = await fetch('https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-max/predictions', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${REPLICATE_API_TOKEN}`,
@@ -157,11 +157,12 @@ app.post('/api/generar', upload.fields([{name:'imagen',maxCount:1},{name:'refere
           'Prefer': 'wait'
         },
         body: JSON.stringify({
-          version: 'qwen/qwen-image-edit-2511',
           input: {
             prompt: prompt,
-            image: dataUri,
-            image_2: refDataUri
+            input_image: dataUri,
+            reference_image: refDataUri,
+            output_format: 'jpg',
+            safety_tolerance: 6
           }
         })
       });
