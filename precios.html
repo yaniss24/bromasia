@@ -152,12 +152,24 @@
 
 <div class="garantia">🔒 Pago seguro · Cancela cuando quieras</div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+async function initPrecios() {
+  const sb = window.supabase.createClient("https://xnrhnmrghxtrrylnlnuv.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY");
+  const { data: { user } } = await sb.auth.getUser();
+  if (user?.email) {
+    document.querySelectorAll(".btn-pack").forEach(btn => {
+      btn.href = btn.href.split("?")[0] + "?email=" + encodeURIComponent(user.email);
+    });
+  }
+}
+
 function togglePack(el) {
   el.classList.toggle('open');
 }
 // Abrir todos al cargar
 document.querySelectorAll('.pack').forEach(p => p.classList.add('open'));
+initPrecios();
 </script>
 
 </body>
