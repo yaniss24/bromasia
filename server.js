@@ -192,7 +192,7 @@ app.post('/api/generar', upload.fields([{name:'imagen',maxCount:1},{name:'refere
 app.post('/api/webhook-whop', express.raw({ type: 'application/json' }), async (req, res) => {
   try {
     const payload = JSON.parse(req.body);
-    const evento = payload?.action;
+    const payload = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
     const email = payload?.data?.metadata?.email || payload?.data?.user?.email;
     const productId = payload?.data?.product_id || payload?.data?.plan?.product_id;
 
