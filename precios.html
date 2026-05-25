@@ -75,7 +75,7 @@
         <li><span class="check">✓</span> Todas las categorías</li>
         <li><span class="check">✓</span> Resultados en segundos</li>
       </ul>
-      <a href="https://bromasia.lemonsqueezy.com/checkout/buy/751f5520-8831-4625-a796-cba8b194b819" class="btn-pack">🎭 Comprar Starter</a>
+      <a href="javascript:void(0)" onclick="abrirCheckout('pri_01ksfqh72fqwgsdd320n00gqr0')" class="btn-pack">🎭 Comprar Starter</a>
     </div>
   </div>
 
@@ -99,7 +99,7 @@
         <li><span class="check">✓</span> Resultados en segundos</li>
         <li><span class="check">✓</span> El más popular</li>
       </ul>
-      <a href="https://bromasia.lemonsqueezy.com/checkout/buy/c12bd366-9a2e-47fb-b2d8-055f4c86868f" class="btn-pack">🎭 Comprar Pro</a>
+      <a href="javascript:void(0)" onclick="abrirCheckout('pri_01ksfqzfc8f2e0nfqvab4ywq2e')" class="btn-pack">⭐ Comprar Pro</a>
     </div>
   </div>
 
@@ -122,13 +122,35 @@
         <li><span class="check">✓</span> Resultados en segundos</li>
         <li><span class="check">✓</span> Para los más bromistas</li>
       </ul>
-      <a href="https://bromasia.lemonsqueezy.com/checkout/buy/bec378ce-60b2-48c0-85b1-95710834e4b1" class="btn-pack">🎭 Comprar Max</a>
+      <a href="javascript:void(0)" onclick="abrirCheckout('pri_01ksfr1e0z56w2v0f6m8qkr4p6')" class="btn-pack">🚀 Comprar Max</a>
+    </div>
+  </div>
+
+  <div class="pack" onclick="togglePack(this)">
+    <div class="pack-header">
+      <div class="pack-left">
+        <div class="pack-icon icon-starter">🔄</div>
+        <div>
+          <div class="pack-name">Suscripción mensual</div>
+          <div class="pack-desc">350 créditos/mes · 35 imágenes</div>
+        </div>
+      </div>
+      <div class="pack-price">6,99€/mes <span class="pack-arrow">▼</span></div>
+    </div>
+    <div class="pack-body">
+      <ul class="pack-features">
+        <li><span class="check">✓</span> 35 bromas al mes</li>
+        <li><span class="check">✓</span> Cancela cuando quieras</li>
+        <li><span class="check">✓</span> Todas las categorías</li>
+        <li><span class="check">✓</span> Resultados en segundos</li>
+      </ul>
+      <a href="javascript:void(0)" onclick="abrirCheckout('pri_01ksfr30nkmkx2gefqkfz758ap')" class="btn-pack">🔄 Suscribirme</a>
     </div>
   </div>
 
 </div>
 
-<div class="garantia">🔒 Pago seguro · Sin suscripción · Créditos sin caducidad</div>
+<div class="garantia">🔒 Pago seguro · Cancela cuando quieras</div>
 
 <script>
 function togglePack(el) {
@@ -138,5 +160,24 @@ function togglePack(el) {
 document.querySelectorAll('.pack').forEach(p => p.classList.add('open'));
 </script>
 
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+Paddle.Initialize({ token: 'live_6be7ded49e32568de536835d318' });
+
+async function abrirCheckout(priceId) {
+  const sb = supabase.createClient(
+    "https://xnrhnmrghxtrrylnlnuv.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhucmhubXJnaHh0cnJ5bG5sbnV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNzY3MDQsImV4cCI6MjA5NDk1MjcwNH0.fx6Ryf_R_8Tqrf_OlELZ0dWeSK14RABJ6gBn7DPJWKY"
+  );
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.href = '/login'; return; }
+  Paddle.Checkout.open({
+    items: [{ priceId: priceId, quantity: 1 }],
+    customer: { email: session.user.email },
+    successUrl: 'https://bromasia.com/gracias'
+  });
+}
+</script>
 </body>
 </html>
