@@ -141,45 +141,17 @@ app.post('/api/generar', upload.fields([{name:'imagen',maxCount:1},{name:'refere
     const mime = req.files['imagen'][0].mimetype || 'image/jpeg';
     const dataUri = `data:${mime};base64,${base64}`;
 
-    const tieneReferencia = !!req.files?.['referencia']?.[0];
-    let response;
-
-    if (tieneReferencia) {
-      // Usar Qwen para imagen de referencia
-      const refData = fs.readFileSync(req.files['referencia'][0].path);
-      const refMime = req.files['referencia'][0].mimetype || 'image/jpeg';
-      const refDataUri = 'data:' + refMime + ';base64,' + refData.toString('base64');
-      response = await fetch('https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-max/predictions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${REPLICATE_API_TOKEN}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'wait'
-        },
-        body: JSON.stringify({
-          input: {
-            prompt: prompt,
-            input_image: dataUri,
-            reference_image: refDataUri,
-            output_format: 'jpg',
-            safety_tolerance: 6
-          }
-        })
-      });
-    } else {
-      // Usar flux-kontext-pro normal
-      response = await fetch('https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-pro/predictions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${REPLICATE_API_TOKEN}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'wait'
-        },
-        body: JSON.stringify({
-          input: { prompt, input_image: dataUri, output_format: 'jpg', safety_tolerance: 6 }
-        })
-      });
-    }
+    const response = await fetch('https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-pro/predictions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${REPLICATE_API_TOKEN}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'wait'
+      },
+      body: JSON.stringify({
+        input: { prompt, input_image: dataUri, output_format: 'jpg', safety_tolerance: 6 }
+      })
+    });
 
     const data = await response.json();
     fs.unlinkSync(req.files['imagen'][0].path); if(req.files?.['referencia']?.[0]) fs.unlinkSync(req.files['referencia'][0].path);
