@@ -1,3 +1,16 @@
+
+app.get('/api/comprar', (req, res) => {
+  const { pack, email } = req.query;
+  const links = {
+    starter: 'https://whop.com/bromasia/starter-200-creditos/',
+    pro: 'https://whop.com/bromasia/pro-500-creditos/',
+    max: 'https://whop.com/bromasia/max-1000-creditos/',
+    mensual: 'https://whop.com/bromasia/suscripcion-mensual-350-creditos/'
+  };
+  const base = links[pack] || links.mensual;
+  const url = email ? base + '?email=' + encodeURIComponent(email) : base;
+  res.redirect(url);
+});
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
