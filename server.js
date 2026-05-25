@@ -188,6 +188,36 @@ app.post('/api/generar', upload.fields([{name:'imagen',maxCount:1},{name:'refere
   }
 });
 
+// Webhook Whop
+app.post('/api/webhook-whop', express.raw({ type: 'application/json' }), async (req, res) => {
+  try {
+    const payload = JSON.parse(req.body);
+    const evento = payload?.action;
+    const email = payload?.data?.user?.email;
+    const productId = payload?.data?.product_id || payload?.data?.plan?.product_id;
+
+    const creditosMap = {
+      'starter-200-creditos': 200,
+      'pro-500-creditos': 500,
+      'max-1000-creditos': 1000,
+      'suscripcion-mensual-350-creditos': 350,
+    };
+
+    if (email && (evento === 'membership.went_valid' || evento === 'payment.succeeded')) {
+      const slug = payload?.data?.product?.slug || payload?.data?.plan?.slug || '';
+      const creditsToAdd = Object.entries(creditosMap).find(([key]) => slug.includes(key))?.[1] || 200;
+      const { data: usuario } = await supabase.from('usuarios').select('id, creditos').eq('email', email).single();
+      if (usuario) {
+        await supabase.from('usuarios').update({ creditos: (usuario.creditos || 0) + creditsToAdd }).eq('id', usuario.id);
+      }
+    }
+    res.sendStatus(200);
+  } catch(err) {
+    console.log('Whop webhook error:', err.message);
+    res.sendStatus(200);
+  }
+});
+
 // Webhook Paddle
 app.post('/api/webhook-paddle', express.raw({ type: 'application/json' }), async (req, res) => {
   try {
