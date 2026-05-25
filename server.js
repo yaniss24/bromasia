@@ -89,7 +89,7 @@ app.get('/api/creditos', async (req, res) => {
 });
 
 // API generar
-app.post('/api/generar', upload.single('imagen'), async (req, res) => {
+app.post('/api/generar', upload.fields([{name:'imagen',maxCount:1},{name:'referencia',maxCount:1}]), async (req, res) => {
   try {
     const token = req.headers.authorization?.replace('Bearer ', '');
     let userId = null;
@@ -102,13 +102,13 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
         const { data } = await supabase.from('usuarios').select('creditos').eq('id', userId).single();
         creditos = data?.creditos ?? 0;
         if (creditos < 10) {
-          if (req.file) fs.unlinkSync(req.file.path);
+          if (req.files?.['imagen']?.[0]) fs.unlinkSync(req.files['imagen'][0].path);
           return res.status(403).json({ error: 'Sin créditos. Recarga para continuar.' });
         }
       }
     }
 
-    if (!req.file) return res.status(400).json({ error: 'No se recibió foto' });
+    if (!req.files?.['imagen']?.[0]) return res.status(400).json({ error: 'No se recibió foto' });
 
     const promptOriginal = (req.body.prompt || req.body.broma || '').trim();
 
@@ -136,9 +136,9 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
       if (claudeData.content?.[0]?.text) promptMejorado = claudeData.content[0].text.trim();
     } catch(e) { console.log('Claude prompt error:', e.message); }
     const prompt = promptMejorado;
-    const imageData = fs.readFileSync(req.file.path);
+    const imageData = fs.readFileSync(req.files['imagen'][0].path);
     const base64 = imageData.toString('base64');
-    const mime = req.file.mimetype || 'image/jpeg';
+    const mime = req.files['imagen'][0].mimetype || 'image/jpeg';
     const dataUri = `data:${mime};base64,${base64}`;
 
     const response = await fetch('https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-pro/predictions', {
@@ -149,12 +149,20 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
         'Prefer': 'wait'
       },
       body: JSON.stringify({
-        input: { prompt, input_image: dataUri, output_format: 'jpg', safety_tolerance: 6 }
+        input: (() => {
+          const inp = { prompt, input_image: dataUri, output_format: 'jpg', safety_tolerance: 6 };
+          if (req.files?.['referencia']?.[0]) {
+            const refData = fs.readFileSync(req.files['referencia'][0].path);
+            const refMime = req.files['referencia'][0].mimetype || 'image/jpeg';
+            inp.reference_image = 'data:' + refMime + ';base64,' + refData.toString('base64');
+          }
+          return inp;
+        })()
       })
     });
 
     const data = await response.json();
-    fs.unlinkSync(req.file.path);
+    fs.unlinkSync(req.files['imagen'][0].path); if(req.files?.['referencia']?.[0]) fs.unlinkSync(req.files['referencia'][0].path);
 
     const imagen = Array.isArray(data.output) ? data.output[0] : data.output;
     if (!imagen) return res.status(500).json({ error: data.error || 'Sin output de Replicate' });
