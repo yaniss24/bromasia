@@ -193,7 +193,7 @@ app.post('/api/webhook-whop', express.raw({ type: 'application/json' }), async (
   try {
     const payload = JSON.parse(req.body);
     const evento = payload?.action;
-    const email = payload?.data?.user?.email;
+    const email = payload?.data?.metadata?.email || payload?.data?.user?.email;
     const productId = payload?.data?.product_id || payload?.data?.plan?.product_id;
 
     const creditosMap = {
