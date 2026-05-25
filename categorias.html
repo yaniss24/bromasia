@@ -269,7 +269,10 @@ async function irGenerador(el) {
   const prompt = img ? img.dataset.prompt : '';
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
-    window.location.href = '/generador?prompt=' + encodeURIComponent(prompt);
+    const titulo = card.querySelector('.card-title')?.textContent || '';
+    const sub = card.querySelector('.card-sub')?.textContent || '';
+    const imgSrc = img ? img.src : '';
+    window.location.href = '/generador?prompt=' + encodeURIComponent(prompt) + '&titulo=' + encodeURIComponent(titulo) + '&sub=' + encodeURIComponent(sub) + '&img=' + encodeURIComponent(imgSrc);
   } else {
     document.getElementById('modal').classList.add('open');
   }
