@@ -202,6 +202,19 @@ app.post('/api/generar', upload.fields([{name:'imagen',maxCount:1},{name:'refere
 });
 
 // Webhook Whop
+app.get('/api/comprar', (req, res) => {
+  const { pack, email } = req.query;
+  const links = {
+    starter: 'https://whop.com/bromasia/starter-200-creditos/',
+    pro: 'https://whop.com/bromasia/pro-500-creditos/',
+    max: 'https://whop.com/bromasia/max-1000-creditos/',
+    mensual: 'https://whop.com/bromasia/suscripcion-mensual-350-creditos/'
+  };
+  const base = links[pack] || links.mensual;
+  const url = email ? base + '?email=' + encodeURIComponent(email) : base;
+  res.redirect(url);
+});
+
 app.post('/api/webhook-whop', express.raw({ type: 'application/json' }), async (req, res) => {
   try {
     const payload = JSON.parse(req.body);
