@@ -172,16 +172,27 @@ app.post('/api/generar', upload.single('imagen'), async (req, res) => {
   }
 });
 
-// Webhook Lemon Squeezy
-app.post('/api/webhook-lemon', express.raw({ type: 'application/json' }), async (req, res) => {
+// Webhook Paddle
+app.post('/api/webhook-paddle', express.raw({ type: 'application/json' }), async (req, res) => {
   try {
     const payload = JSON.parse(req.body);
-    const email = payload?.data?.attributes?.user_email;
-    const evento = payload?.meta?.event_name;
-    if (email && (evento === 'order_created' || evento === 'subscription_created')) {
+    const evento = payload?.event_type;
+    const email = payload?.data?.customer?.email || payload?.data?.items?.[0]?.price?.custom_data?.email;
+    const priceId = payload?.data?.items?.[0]?.price?.id;
+
+    // Mapa de price IDs a créditos
+    const creditosMap = {
+      'pri_01ksfqh72fqwgsdd320n00gqr0': 200,  // Starter
+      'pri_01ksfqzfc8f2e0nfqvab4ywq2e': 500,  // Pro
+      'pri_01ksfr1e0z56w2v0f6m8qkr4p6': 1000, // Max
+      'pri_01ksfr30nkmkx2gefqkfz758ap': 350,  // Suscripción
+    };
+
+    if (email && (evento === 'transaction.completed' || evento === 'subscription.activated')) {
+      const creditsToAdd = creditosMap[priceId] || 200;
       const { data: usuario } = await supabase.from('usuarios').select('id, creditos').eq('email', email).single();
       if (usuario) {
-        await supabase.from('usuarios').update({ creditos: (usuario.creditos || 0) + 10 }).eq('id', usuario.id);
+        await supabase.from('usuarios').update({ creditos: (usuario.creditos || 0) + creditsToAdd }).eq('id', usuario.id);
       }
     }
     res.sendStatus(200);

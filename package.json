@@ -11,6 +11,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@paddle/paddle-node-sdk": "^3.8.0",
     "@supabase/supabase-js": "^2.106.1",
     "express": "^5.2.1",
     "multer": "^2.1.1",
