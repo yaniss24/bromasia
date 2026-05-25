@@ -87,18 +87,6 @@ h1 span{color:#8A5CFF}
 
   <img class="preview-img" id="previewImg">
 
-  <!-- Imagen de referencia -->
-  <div style="text-align:center;margin-bottom:16px">
-    <label id="refLabel" style="display:inline-flex;align-items:center;gap:6px;color:#8A5CFF;font-size:13px;font-weight:600;cursor:pointer;background:rgba(138,92,255,0.08);border:1px solid rgba(138,92,255,0.25);border-radius:8px;padding:8px 14px;">
-      <span>🖼️</span> Añadir imagen de referencia <span id="refArrow">+</span>
-      <input type="file" id="refInput" accept="image/*" style="display:none">
-    </label>
-    <div id="refPreviewWrap" style="display:none;margin-top:10px;position:relative;display:none">
-      <img id="refPreview" style="max-height:120px;border-radius:10px;border:1px solid #2a2a3a;max-width:100%">
-      <button onclick="quitarRef()" style="position:absolute;top:4px;right:4px;background:#ff4444;border:none;color:white;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;line-height:1">✕</button>
-    </div>
-  </div>
-
   <div class="prompt-box">
     <div class="prompt-label">✨ EFECTO IA</div>
     <textarea id="promptText" style="width:100%;background:#0D0D14;border:1px solid rgba(138,92,255,0.25);border-radius:12px;padding:12px;color:#fff;font-size:14px;line-height:1.5;resize:vertical;outline:none;font-family:Inter,sans-serif;min-height:80px;box-sizing:border-box;" placeholder="Describe tu broma... Ej: destruye el coche, inunda la cocina..."></textarea>
@@ -174,29 +162,6 @@ async function cargarCreditos() {
 }
 cargarCreditos();
 
-let refFile = null;
-
-document.getElementById('refInput').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  refFile = file;
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    const wrap = document.getElementById('refPreviewWrap');
-    document.getElementById('refPreview').src = ev.target.result;
-    wrap.style.display = 'block';
-    document.getElementById('refArrow').textContent = '✓';
-  };
-  reader.readAsDataURL(file);
-});
-
-function quitarRef() {
-  refFile = null;
-  document.getElementById('refPreviewWrap').style.display = 'none';
-  document.getElementById('refInput').value = '';
-  document.getElementById('refArrow').textContent = '+';
-}
-
 async function generar() {
   const file = document.getElementById('fileInput').files[0];
   if (!file) { mostrarError('Sube una foto primero'); return; }
@@ -214,7 +179,6 @@ async function generar() {
 
   const formData = new FormData();
   formData.append('imagen', file);
-  if (refFile) formData.append('referencia', refFile);
   formData.append('prompt', document.getElementById('promptText').value);
 
   try {
