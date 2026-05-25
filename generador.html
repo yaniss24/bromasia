@@ -136,6 +136,11 @@ const categoria = params.get('cat') || 'broma';
 const imgParam = params.get('img');
 const tituloParam = params.get('titulo');
 const subParam = params.get('sub');
+if (!params.get("prompt")) {
+  document.querySelector(".prompt-box").style.display = "block";
+} else {
+  document.querySelector(".prompt-box").style.display = "none";
+}
 if (imgParam) {
   document.getElementById('categoria-card').style.display = 'block';
   document.getElementById('categoria-img').src = decodeURIComponent(imgParam);
