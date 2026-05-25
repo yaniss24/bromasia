@@ -167,13 +167,29 @@ app.post('/api/generar', upload.fields([{name:'imagen',maxCount:1},{name:'refere
     const imagen = Array.isArray(data.output) ? data.output[0] : data.output;
     if (!imagen) return res.status(500).json({ error: data.error || 'Sin output de Replicate' });
 
+    // Guardar imagen en Supabase Storage
+    let imagenFinal = imagen;
+    try {
+      const fetch2 = (...args) => import('node-fetch').then(({default: f}) => f(...args));
+      const imgRes = await fetch2(imagen);
+      const imgBuffer = await imgRes.buffer();
+      const fileName = 'broma_' + Date.now() + '.jpg';
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('bromas')
+        .upload(fileName, imgBuffer, { contentType: 'image/jpeg', upsert: false });
+      if (!uploadError) {
+        const { data: urlData } = supabase.storage.from('bromas').getPublicUrl(fileName);
+        imagenFinal = urlData.publicUrl;
+      }
+    } catch(e) { console.log('Storage error:', e.message); }
+
     // Descontar crédito y guardar broma
     if (userId) {
       await supabase.from('usuarios').update({ creditos: creditos - 10 }).eq('id', userId);
-      await supabase.from('bromas').insert({ user_id: userId, imagen_url: imagen, prompt: prompt });
+      await supabase.from('bromas').insert({ user_id: userId, imagen_url: imagenFinal, prompt: prompt });
     }
 
-    res.json({ url: imagen, imagen });
+    res.json({ url: imagenFinal, imagen: imagenFinal });
   } catch (err) {
     console.error('ERROR:', err.message);
     res.status(500).json({ error: err.message });
