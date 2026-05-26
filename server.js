@@ -260,16 +260,4 @@ app.post('/api/webhook-paddle', express.raw({ type: 'application/json' }), async
   }
 });
 
-app.get('/api/comprar', (req, res) => {
-  const { pack, email } = req.query;
-  const links = {
-    starter: 'https://whop.com/bromasia/starter-200-creditos/',
-    pro: 'https://whop.com/bromasia/pro-500-creditos/',
-    max: 'https://whop.com/bromasia/max-1000-creditos/',
-    mensual: 'https://whop.com/bromasia/suscripcion-mensual-350-creditos/'
-  };
-  const base = links[pack] || links.mensual;
-  const url = email ? base + '?email=' + encodeURIComponent(email) : base;
-  res.redirect(url);
-});
 app.listen(3000, () => console.log('BromasIA corriendo en http://localhost:3000'));
