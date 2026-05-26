@@ -150,7 +150,7 @@ app.post('/api/generar', upload.fields([{name:'imagen',maxCount:1},{name:'refere
         'Prefer': 'wait'
       },
       body: JSON.stringify({
-        input: { prompt, input_image: dataUri, output_format: 'jpg', safety_tolerance: 6 }
+        input: { prompt, input_image: dataUri, output_format: "jpg", safety_tolerance: 6, aspect_ratio: "9:16" }
       })
     });
 
