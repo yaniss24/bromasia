@@ -217,7 +217,7 @@ app.post('/api/webhook-whop', express.raw({ type: 'application/json' }), async (
       'suscripcion-mensual-350-creditos': 350,
     };
 
-    if (email && (evento === 'membership.went_valid' || evento === 'payment.succeeded')) {
+    if (email && (evento === 'membership_activated' || evento === 'payment.succeeded')) {
       const slug = payload?.data?.product?.slug || payload?.data?.plan?.slug || '';
       const creditsToAdd = Object.entries(creditosMap).find(([key]) => slug.includes(key))?.[1] || 200;
       const { data: usuario } = await supabase.from('usuarios').select('id, creditos').eq('email', email).single();
